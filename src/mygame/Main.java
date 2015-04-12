@@ -34,14 +34,17 @@ public class Main extends SimpleApplication {
 
     private static final int NUM_COLUMNS = 6;
     private static final int NUM_ROWS = 5;
-    private boolean isRunning = true;
+    private boolean isRunning = true, awaitingAnswer = false;
+    
+    private int[] teamScores = new int[2];
+    private char teamAnswering = 0;
     
     protected Cube main;
-    protected Node boardCubeNode;
+    protected Node boardCubeNode, categoryNode;
     protected Cube[][] boardCube = new Cube[NUM_ROWS][NUM_COLUMNS];
     protected Question question = new Question("TheQuestion", new Vector3f(4, 3, 1), new Vector3f(8.0f, 6.0f, 7.2f));
     private Geometry boardCubePicked, mark;
-    protected BitmapText screenText, questionText;
+    protected BitmapText screenText, questionText, categoryText[] = new BitmapText[6], teamScoreText;
     
     public static void main(String[] args) {
         Main app = new Main();
@@ -52,6 +55,12 @@ public class Main extends SimpleApplication {
     public void simpleInitApp() {
         flyCam.setEnabled(false); //disable movement of camera
         inputManager.setCursorVisible(true);
+        
+        setDisplayFps(false);       // to hide the FPS
+        setDisplayStatView(false);  // to hide the statistics 
+        
+        teamScores[0] = 0;
+        teamScores[1] = 0;
         
         cam.setLocation(new Vector3f(8.0f, 6.0f, 15.410577f));
         viewPort.setBackgroundColor(ColorRGBA.Blue);
@@ -87,21 +96,26 @@ public class Main extends SimpleApplication {
         guiNode.detachAllChildren();
         guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
         screenText = new BitmapText(guiFont, false);
-        createLineOfText(screenText, 1);
+        createLineOfText(screenText, 1, 1);
+        
+        teamScoreText = new BitmapText(guiFont, false);
+        createLineOfText(teamScoreText, 37, 2);
+        teamScoreText.setColor(ColorRGBA.Black);
         
         questionText = new BitmapText(guiFont, false);
         createQuestionText();
         
-        //prep questions
-        question.loadQA("IN_Jeopardy_Questions.txt");
-        question.getGeometry().setLocalTranslation(new Vector3f(8.0f, 16.0f, 7.2f));
-        boardCubeNode.attachChild(createCube(question, "QuestionBack.png"));
+        categoryNode = new Node("Category Titles");
+        guiNode.attachChild(categoryNode);
+        
+        initQuestions("IN_Jeopardy_Questions.txt"); //prep questions
+        initCategories();//set categories, after initQuestions!
     }
 
     @Override
     public void simpleUpdate(float tpf) {
         if(isRunning) {
-            //screenText.setText("Test text");
+            teamScoreText.setText("Team A Score: " + teamScores[0] + "\t\t\tTeam B Score: " + teamScores[1] + "");
         }
     }
 
@@ -125,10 +139,14 @@ public class Main extends SimpleApplication {
 
         inputManager.addMapping("Pause",  new KeyTrigger(KeyInput.KEY_P));
         inputManager.addMapping("Select", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+        
+        inputManager.addMapping("CorrectAnswer", new KeyTrigger(KeyInput.KEY_SPACE));
+        inputManager.addMapping("WrongAnswer", new KeyTrigger(KeyInput.KEY_BACK));
         // Add the names to the action listener.
         inputManager.addListener(combinedListener,"Pause");
         inputManager.addListener(combinedListener,"Select");
         inputManager.addListener(combinedListener, new String[]{ "MouseRight", "MouseLeft", "MouseUp", "MouseDown"});
+        inputManager.addListener(combinedListener, new String[]{ "CorrectAnswer", "WrongAnswer"});
     }
     
     //add listener for keystrokes/mouse input
@@ -143,14 +161,14 @@ public class Main extends SimpleApplication {
 
         public void onAction(String name, boolean isPressed, float tpf) {
             if (name.equals("Pause") && !isPressed) {
-                    isRunning = !isRunning;
-                    if (isRunning) {
-                        screenText.setText("");
-                    } else {
-                        screenText.setText("--Game Paused--");
-                    }
+                isRunning = !isRunning;
+                if (isRunning) {
+                    screenText.setText("");
+                } else {
+                    screenText.setText("--Game Paused--");
+                }
             }
-            if(isRunning) {
+            if(isRunning && !awaitingAnswer) {
                 if (name.equals("Select") && !isPressed) {
                     // 1. Reset results list.
                     CollisionResults results = new CollisionResults();
@@ -171,18 +189,25 @@ public class Main extends SimpleApplication {
                         hit = boardCubePicked.getName();
                         
                         if(hit.equals("TheQuestion")) {
-                            question.getGeometry().setLocalTranslation(new Vector3f(8.0f, 16.0f, 7.2f));
-                            //wait 5 seconds for player response
-                            rootNode.detachChild(mark);
-                            guiNode.detachChild(questionText);
+                            if(click2d.x < settings.getWidth()/2) {
+                                teamAnswering = 'A';//team A answering
+                            } else {
+                                teamAnswering = 'B';//team A answering
+                            }
+                            awaitingAnswer = !awaitingAnswer; //pauses until question answered
                         } else {
                             question.setUserData("QuestionWorth", boardCubePicked.getUserData("Bet"));
                             question.getGeometry().setLocalTranslation(new Vector3f(8.0f, 6.0f, 7.2f));
                             
                             boardCubeNode.detachChild(boardCubePicked);
+                            guiNode.detachChild(categoryNode);
+                            guiNode.detachChild(teamScoreText);
+                            
                             int index = boardCubePicked.getUserData("Index");
                             questionText.setText(question.getQuestion(index));
                             guiNode.attachChild(questionText);
+                            
+                            screenText.setText("");
                         }
                         break;
                     }
@@ -203,9 +228,40 @@ public class Main extends SimpleApplication {
                         rootNode.detachChild(mark);
                     }
                 }
+                
+            }
+            
+            if(isRunning) {
+                if (name.equals("CorrectAnswer") && !isPressed) {
+                    int points = question.getUserData("QuestionWorth");
+                    awardPoints(teamAnswering,points);
+                    awaitingAnswer = !awaitingAnswer;
+                }
+                if (name.equals("WrongAnswer") && !isPressed) {
+                    int points = question.getUserData("QuestionWorth");
+                    awardPoints(teamAnswering,-points);
+                    awaitingAnswer = !awaitingAnswer;
+                }
             }
         }
-        
+    }
+    
+    public void awardPoints(char toTeam, int points) {
+        if(toTeam == 'A') {
+            //team A answered
+            screenText.setText("TEAM A scored " + points + " points.");
+            teamScores[0] += points;
+        } else if(toTeam == 'B') {
+            //team B answered
+            screenText.setText("TEAM B scored " + points + " points.");
+            teamScores[1] += points;
+        }
+        question.getGeometry().setLocalTranslation(new Vector3f(8.0f, 16.0f, 7.2f));
+        //wait 5 seconds for player response
+        rootNode.detachChild(mark);
+        guiNode.detachChild(questionText);
+        guiNode.attachChild(categoryNode);
+        guiNode.attachChild(teamScoreText);
     }
     
     public Geometry createCube(Cube theCube, String textureFileName) {
@@ -213,26 +269,45 @@ public class Main extends SimpleApplication {
         return theCube.getGeometry();
     }
     
-    public void createLineOfText(BitmapText theText, int lineNumber) {
+    public void createLineOfText(BitmapText theText, int lineNumber, float scale) {
         theText.setSize(guiFont.getCharSet().getRenderedSize());
+        theText.scale(scale);
         theText.setText("");
-        theText.setLocalTranslation(
-                settings.getWidth() / 2 - guiFont.getCharSet().getRenderedSize() / 3 * 2,
-                theText.getLineHeight()*lineNumber, 0);
+        theText.setLocalTranslation(0, theText.getLineHeight()*lineNumber, 0);
+        theText.setBox(new Rectangle(0,0,settings.getWidth()/scale,guiFont.getCharSet().getRenderedSize()));
+        theText.setAlignment(BitmapFont.Align.Center);
         guiNode.attachChild(theText);
     }
     
     public void createQuestionText() {
-        
         questionText.setSize(guiFont.getCharSet().getRenderedSize());
         questionText.scale(4);
         questionText.setText("");
-        questionText.setLocalTranslation(0,settings.getHeight(), 0);
+        questionText.setLocalTranslation(110,settings.getHeight(), 0);
         
-        questionText.setBox(new Rectangle(30,-20,200,200));
+        questionText.setBox(new Rectangle(0,0,200,190));
         questionText.setLineWrapMode(LineWrapMode.Word);
-        
+        questionText.setColor(ColorRGBA.Yellow);
+        questionText.setAlignment(BitmapFont.Align.Center);
+        questionText.setVerticalAlignment(BitmapFont.VAlign.Center);
         guiNode.attachChild(questionText);
+    }
+    
+    public void createCategoryText(int index) {
+        int multiplier = 162, xoffset = 44, yoffset = -30;
+        
+        categoryText[index].setSize(guiFont.getCharSet().getRenderedSize());
+        categoryText[index].scale(1.5f);
+        categoryText[index].setText("");
+        categoryText[index].setLocalTranslation(index*multiplier+xoffset,settings.getHeight()+yoffset, 0);
+        
+        categoryText[index].setBox(new Rectangle(0,0,85,50));
+        categoryText[index].setLineWrapMode(LineWrapMode.Word);
+        categoryText[index].setColor(ColorRGBA.Yellow);
+        categoryText[index].setAlignment(BitmapFont.Align.Center);
+        categoryText[index].setVerticalAlignment(BitmapFont.VAlign.Center);
+        
+        categoryNode.attachChild(categoryText[index]);
     }
     
     protected void initMark() {
@@ -242,4 +317,18 @@ public class Main extends SimpleApplication {
         mark_mat.setColor("Color", ColorRGBA.Red);
         mark.setMaterial(mark_mat);
   }
+    
+    protected void initQuestions(String fileName) { //initQuestions("IN_Jeopardy_Questions.txt");
+        question.loadQA(fileName);
+        question.getGeometry().setLocalTranslation(new Vector3f(8.0f, 16.0f, 7.2f));
+        boardCubeNode.attachChild(createCube(question, "QuestionBack.png"));
+    }
+    
+    protected void initCategories() {
+        for(int i = 0; i < categoryText.length; i++) {
+            categoryText[i] = new BitmapText(guiFont, false);
+            createCategoryText(i);
+            categoryText[i].setText(question.getCategory(i));
+        }
+    }
 }
