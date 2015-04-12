@@ -4,7 +4,18 @@
  */
 package mygame;
 
+import com.jme3.asset.AssetManager;
+import com.jme3.font.BitmapFont;
+import com.jme3.font.BitmapText;
+import com.jme3.font.Rectangle;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -63,14 +74,47 @@ public class Question extends Cube {
     }
     
     public boolean loadQA(String fromFile) {
-        //test function for now...
-        for(int i = 0; i < numQuestions; i++) {
-            this.theQuestions[i] = "What layer handles logical addressing?" + i;
-            this.theAnswers[i] = "Answer" + i;
-        }
         
-        for(int i = 0; i < numCategories; i++) {
-            this.category[i] = "Category" + i;
+        FileReader theFileReader = null;
+        //try creation of filereader so we can input questions
+        try {
+            theFileReader = new FileReader(".\\" + fromFile);
+            
+            int theCharacterRead = 0, totalQuestionsLoaded = 1, totalCategories = 1;
+            for(int i = 0; i < numQuestions; i++) {
+                theCharacterRead = theFileReader.read(); //read the first character
+                
+                while(theCharacterRead != -1) {
+                    if(theCharacterRead != (char)'\n') {
+                        if(theCharacterRead == (char)'@') {
+                            --i; //make sure to restart on the same question number
+                            while((theCharacterRead = theFileReader.read()) != (char)'\n') {
+                                this.category[totalCategories-1] += theCharacterRead;
+                            }
+                            ++totalCategories;
+                        } else {
+                            this.theQuestions[i] += (char)theCharacterRead;
+                            theCharacterRead = theFileReader.read();
+                        }
+                    } else {
+                        ++totalQuestionsLoaded;
+                        break;
+                    }
+                }
+            }
+            
+            if(totalQuestionsLoaded < 30) {
+                throw new IOException("You must have 30 questions to play. You currently have " + totalQuestionsLoaded);
+            }
+            
+            if(totalCategories < 6) {
+                throw new IOException("You must have 6 categories to play. You currently have " + totalCategories);
+            }
+            
+            theFileReader.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Question.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
         
         return true;
