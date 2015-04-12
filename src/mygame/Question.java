@@ -89,7 +89,7 @@ public class Question extends Cube {
                         if(theCharacterRead == (char)'@') {
                             --i; //make sure to restart on the same question number
                             while((theCharacterRead = theFileReader.read()) != (char)'\n') {
-                                this.category[totalCategories-1] += theCharacterRead;
+                                this.category[totalCategories-1] += (char)theCharacterRead;
                             }
                             ++totalCategories;
                         } else {
@@ -115,6 +115,19 @@ public class Question extends Cube {
         } catch (IOException ex) {
             Logger.getLogger(Question.class.getName()).log(Level.SEVERE, null, ex);
             return false;
+        }
+        
+        //copy to temporary string array
+        String[] temp = new String[30];
+        for(int i = 0; i < 30; i++) {
+            temp[i] = this.theQuestions[i];
+        }
+        
+        //correct order of questions
+        for(int j = 0; j < 5; j++) {
+            for(int i = 0; i < 6; i++) {
+                this.theQuestions[j*6+i] = temp[i*5+j];
+            }
         }
         
         return true;
