@@ -15,6 +15,7 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
+import com.jme3.font.Rectangle;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
@@ -33,9 +34,10 @@ public class Main extends SimpleApplication {
     private boolean isRunning = true;
     
     protected Cube main;
-    protected Node questionNode;
-    protected Question[][] question = new Question[NUM_ROWS][NUM_COLUMNS];
-    private Geometry mark;
+    protected Node boardCubeNode;
+    protected Cube[][] boardCube = new Cube[NUM_ROWS][NUM_COLUMNS];
+    protected Question question = new Question("TheQuestion", new Vector3f(4, 3, 1), new Vector3f(8.0f, 6.0f, 7.2f));
+    private Geometry boardCubePicked, mark;
     protected BitmapText screenText;
     
     public static void main(String[] args) {
@@ -56,17 +58,18 @@ public class Main extends SimpleApplication {
         main = new Cube("Board", new Vector3f(8.0f, 6.0f, 1.0f), new Vector3f(8.0f, 6.0f, 0.0f));
         rootNode.attachChild(createCube(main, "BlankJeopardy.png"));
         
-        questionNode = new Node("The questions");
-        rootNode.attachChild(questionNode);
+        boardCubeNode = new Node("Category Amount");
+        rootNode.attachChild(boardCubeNode);
         
         Vector3f screenOffset = new Vector3f(1.7f, 1.3f, 0.0f);
         for(int j = 0, k = NUM_ROWS-1; j < NUM_ROWS; j++, k--) {
             for(int i = 0; i < NUM_COLUMNS; i++) {
-                question[j][i] = new Question("Question", new Vector3f(0.8f, 0.8f, 1.0f),
+                boardCube[j][i] = new Cube("Question", new Vector3f(0.8f, 0.8f, 1.0f),
                         new Vector3f((float)(i*2.5)+screenOffset.x, (float)(j*1.91)+screenOffset.y, 0.1f));
                 int value = ((k+1)*200);
-                questionNode.attachChild(createCube(question[j][i], "Cost_" + value + ".png"));
-                question[j][i].setBet(value);
+                boardCubeNode.attachChild(createCube(boardCube[j][i], "Cost_" + value + ".png"));
+                boardCube[j][i].getGeometry().setUserData("Bet", value);
+                //boardCube[j][i].setBet(value);
             }
         }
         
@@ -80,6 +83,10 @@ public class Main extends SimpleApplication {
         guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
         screenText = new BitmapText(guiFont, false);
         createLineOfText(screenText, 1);
+        
+        //prep questions
+        question.loadQA("IN_QA.txt");
+        boardCubeNode.attachChild(createCube(question, "QuestionBack.png"));
     }
 
     @Override
@@ -147,11 +154,20 @@ public class Main extends SimpleApplication {
                     Ray ray = new Ray(click3d, dir);
                     
                     // 3. Collect intersections between Ray and Shootables in results list.
-                    questionNode.collideWith(ray, results);
+                    boardCubeNode.collideWith(ray, results);
+                    String hit = "";
                     for (int i = 0; i < results.size(); i++) {
                         //Vector3f pt = results.getCollision(i).getContactPoint();
-                        String hit = results.getCollision(i).getGeometry().getName();
-                        screenText.setText("Question picked: " + hit);
+                        boardCubePicked = results.getCollision(i).getGeometry();
+                        hit = boardCubePicked.getName();
+                        
+                        if(hit.equals("TheQuestion")) {
+                            screenText.setText(question.getQuestion(0));
+                        } else {
+                            int value = boardCubePicked.getUserData("Bet");
+                            //boardCubePicked.setLocalTranslation(8, 6, 12f);
+                            boardCubeNode.detachChild(boardCubePicked);
+                        }
                     }
                     // 5. Use the results (we mark the hit object)
                     if (results.size() > 0) {
@@ -159,7 +175,12 @@ public class Main extends SimpleApplication {
                         CollisionResult closest = results.getClosestCollision();
                         // Let's interact - we mark the hit with a red dot.
                         mark.setLocalTranslation(closest.getContactPoint());
-                        rootNode.attachChild(mark);
+                        
+                        if(hit.equals("TheQuestion")) {
+                            //figure out what team clicked
+                        } else {
+                            rootNode.attachChild(mark);
+                        }
                     } else {
                         // No hits? Then remove the red mark.
                         rootNode.detachChild(mark);
@@ -178,7 +199,9 @@ public class Main extends SimpleApplication {
     public void createLineOfText(BitmapText theText, int lineNumber) {
         theText.setSize(guiFont.getCharSet().getRenderedSize());
         theText.setText("");
-        theText.setLocalTranslation(400, theText.getLineHeight()*lineNumber, 0);
+        theText.setLocalTranslation(100, 650, 0);
+        //theText.setBox(new Rectangle(100,650,500,500));
+        theText.scale(4);
         guiNode.attachChild(theText);
     }
     
