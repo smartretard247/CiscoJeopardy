@@ -1,9 +1,12 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
+import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
+import com.jme3.font.LineWrapMode;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -38,7 +41,7 @@ public class Main extends SimpleApplication {
     protected Cube[][] boardCube = new Cube[NUM_ROWS][NUM_COLUMNS];
     protected Question question = new Question("TheQuestion", new Vector3f(4, 3, 1), new Vector3f(8.0f, 6.0f, 7.2f));
     private Geometry boardCubePicked, mark;
-    protected BitmapText screenText;
+    protected BitmapText screenText, questionText;
     
     public static void main(String[] args) {
         Main app = new Main();
@@ -62,14 +65,16 @@ public class Main extends SimpleApplication {
         rootNode.attachChild(boardCubeNode);
         
         Vector3f screenOffset = new Vector3f(1.7f, 1.3f, 0.0f);
-        for(int j = 0, k = NUM_ROWS-1; j < NUM_ROWS; j++, k--) {
+        for(int j = 0, k = NUM_ROWS-1, index = 0; j < NUM_ROWS; j++, k--) {
             for(int i = 0; i < NUM_COLUMNS; i++) {
-                boardCube[j][i] = new Cube("Question", new Vector3f(0.8f, 0.8f, 1.0f),
+                boardCube[j][i] = new Cube("AmountBox", new Vector3f(0.8f, 0.8f, 1.0f),
                         new Vector3f((float)(i*2.5)+screenOffset.x, (float)(j*1.91)+screenOffset.y, 0.1f));
                 int value = ((k+1)*200);
                 boardCubeNode.attachChild(createCube(boardCube[j][i], "Cost_" + value + ".png"));
                 boardCube[j][i].getGeometry().setUserData("Bet", value);
-                //boardCube[j][i].setBet(value);
+                boardCube[j][i].getGeometry().setUserData("Index", index);
+                
+                index++;
             }
         }
         
@@ -84,8 +89,12 @@ public class Main extends SimpleApplication {
         screenText = new BitmapText(guiFont, false);
         createLineOfText(screenText, 1);
         
+        questionText = new BitmapText(guiFont, false);
+        createQuestionText();
+        
         //prep questions
-        question.loadQA("IN_QA.txt");
+        question.loadQA("IN_Jeopardy_Questions.txt");
+        question.getGeometry().setLocalTranslation(new Vector3f(8.0f, 16.0f, 7.2f));
         boardCubeNode.attachChild(createCube(question, "QuestionBack.png"));
     }
 
@@ -162,12 +171,20 @@ public class Main extends SimpleApplication {
                         hit = boardCubePicked.getName();
                         
                         if(hit.equals("TheQuestion")) {
-                            screenText.setText(question.getQuestion(0));
+                            question.getGeometry().setLocalTranslation(new Vector3f(8.0f, 16.0f, 7.2f));
+                            //wait 5 seconds for player response
+                            rootNode.detachChild(mark);
+                            guiNode.detachChild(questionText);
                         } else {
-                            int value = boardCubePicked.getUserData("Bet");
-                            //boardCubePicked.setLocalTranslation(8, 6, 12f);
+                            question.setUserData("QuestionWorth", boardCubePicked.getUserData("Bet"));
+                            question.getGeometry().setLocalTranslation(new Vector3f(8.0f, 6.0f, 7.2f));
+                            
                             boardCubeNode.detachChild(boardCubePicked);
+                            int index = boardCubePicked.getUserData("Index");
+                            questionText.setText(question.getQuestion(index));
+                            guiNode.attachChild(questionText);
                         }
+                        break;
                     }
                     // 5. Use the results (we mark the hit object)
                     if (results.size() > 0) {
@@ -199,10 +216,23 @@ public class Main extends SimpleApplication {
     public void createLineOfText(BitmapText theText, int lineNumber) {
         theText.setSize(guiFont.getCharSet().getRenderedSize());
         theText.setText("");
-        theText.setLocalTranslation(100, 650, 0);
-        //theText.setBox(new Rectangle(100,650,500,500));
-        theText.scale(4);
+        theText.setLocalTranslation(
+                settings.getWidth() / 2 - guiFont.getCharSet().getRenderedSize() / 3 * 2,
+                theText.getLineHeight()*lineNumber, 0);
         guiNode.attachChild(theText);
+    }
+    
+    public void createQuestionText() {
+        
+        questionText.setSize(guiFont.getCharSet().getRenderedSize());
+        questionText.scale(4);
+        questionText.setText("");
+        questionText.setLocalTranslation(0,settings.getHeight(), 0);
+        
+        questionText.setBox(new Rectangle(30,-20,200,200));
+        questionText.setLineWrapMode(LineWrapMode.Word);
+        
+        guiNode.attachChild(questionText);
     }
     
     protected void initMark() {
