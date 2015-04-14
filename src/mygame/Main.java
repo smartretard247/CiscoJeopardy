@@ -25,6 +25,7 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Sphere;
+import com.jme3.system.AppSettings;
 
 /**
  * test
@@ -38,7 +39,7 @@ public class Main extends SimpleApplication {
     private int numQuestionsRemaining;
     private long startTime;
     
-    private boolean isRunning, awaitingAnswer, gameOver, soundEnabled = false, roundInitializing, canPause;
+    private boolean soundEnabled = false, isRunning, awaitingAnswer, gameOver, roundInitializing, canPause, isFullscreen;
     
     private static final String[] questionsFileName = new String[] { "Round1Questions.txt", "Round2Questions.txt" };
     private int[] orderToLoadQuestions = new int[] {
@@ -56,6 +57,16 @@ public class Main extends SimpleApplication {
     
     public static void main(String[] args) {
         Main app = new Main();
+        
+        app.setShowSettings(false);
+        AppSettings settings = new AppSettings(true);
+        settings.put("Width", 1024);
+        settings.put("Height", 768);
+        settings.put("Title", "Cisco Jeopardy!");
+        settings.put("VSync", false);
+        
+        app.setSettings(settings);
+
         app.start();
     }
 
@@ -71,6 +82,8 @@ public class Main extends SimpleApplication {
         initMark();
         initAudio();
         
+        isFullscreen = false;
+                
         main = new Cube("Board", new Vector3f(8.0f, 6.0f, 1.0f), new Vector3f(8.0f, 6.0f, 0.0f));
         rootNode.attachChild(createCube(main, "BlankJeopardy.png"));
         
@@ -157,15 +170,15 @@ public class Main extends SimpleApplication {
         inputManager.addMapping("Pause",  new KeyTrigger(KeyInput.KEY_P));
         inputManager.addMapping("Mute",  new KeyTrigger(KeyInput.KEY_M));
         inputManager.addMapping("Select", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-        inputManager.addMapping("Restart", new KeyTrigger(KeyInput.KEY_R));
+        inputManager.addMapping("Restart", new KeyTrigger(KeyInput.KEY_F9));
         inputManager.addMapping("GetPoint", new MouseButtonTrigger(MouseInput.BUTTON_RIGHT));
-        
+        inputManager.addMapping("ToggleFullscreen", new KeyTrigger(KeyInput.KEY_F11));
         inputManager.addMapping("CorrectAnswer", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("WrongAnswer", new KeyTrigger(KeyInput.KEY_BACK));
         // Add the names to the action listener.
         inputManager.addListener(combinedListener, new String[]{ "Pause", "Mute", "Select", "Restart" });
         inputManager.addListener(combinedListener, new String[]{ "MouseRight", "MouseLeft", "MouseUp", "MouseDown"});
-        inputManager.addListener(combinedListener, new String[]{ "CorrectAnswer", "WrongAnswer", "GetPoint" });
+        inputManager.addListener(combinedListener, new String[]{ "CorrectAnswer", "WrongAnswer", "GetPoint", "ToggleFullscreen" });
     }
     
     //add listener for keystrokes/mouse input
@@ -184,14 +197,18 @@ public class Main extends SimpleApplication {
                 if (isRunning) {
                     removeQuestion("");
                 } else {
-                    //questionText.setText("--Game Paused---");
-                    questionText.setText(String.valueOf(guiFont.getCharSet().getRenderedSize()));
-                    showQuestion("Created by Jesse Young, inspired by class 209-15.");
+                    questionText.setText("---Game Paused---\n\nSPACE - Correct!\nBACKSPACE - Incorrect!\nF9 - Restart\nF11 - Toggle Fullscreen\nM - Mute");
+                    showQuestion("Created by SSG Jesse Young, inspired by class 209-15.");
                     canPause = true;
                 }
             }
             if (name.equals("Mute") && !isPressed) {
                 soundEnabled = !soundEnabled;
+            }
+            if (name.equals("ToggleFullscreen") && !isPressed) {
+                isFullscreen = !isFullscreen;
+                settings.setFullscreen(isFullscreen);
+                restart();
             }
             if (name.equals("GetPoint") && !isPressed) {
                 Vector2f click2d = inputManager.getCursorPosition();
