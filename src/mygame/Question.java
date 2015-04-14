@@ -34,19 +34,15 @@ public class Question extends Cube {
         super(nodeName, size, location);
         
         this.category = new String[numCategories];
-        for(int i = 0; i < numCategories; i++) {
-            this.category[i] = "";
-        }
-        
         this.theQuestions = new String[numQuestions];
         this.theAnswers = new String[numQuestions];
+        
         for(int i = 0; i < numQuestions; i++) {
             this.theQuestions[i] = new String();
-            this.theQuestions[i] = "";
-            
             this.theAnswers[i] = new String();
-            this.theAnswers[i] = "";
         }
+        
+        resetAll();
     }
     
     public String getCategory(int index) {
@@ -73,7 +69,32 @@ public class Question extends Cube {
         }
     }
     
+    private void resetQuestions() {
+        for(int i = 0; i < numQuestions; i++) {
+            this.theQuestions[i] = "";
+        }
+    }
+    
+    private void resetAnswers() {
+        for(int i = 0; i < numQuestions; i++) {
+            this.theAnswers[i] = "";
+        }
+    }
+    
+    private void resetAll() {
+        resetQuestions();
+        resetAnswers();
+        resetCategories();
+    }
+    
+    private void resetCategories() {
+        for(int i = 0; i < numCategories; i++) {
+            this.category[i] = "";
+        }
+    }
+    
     public boolean loadQA(String fromFile) {
+        resetAll();
         
         FileReader theFileReader = null;
         //try creation of filereader so we can input questions
