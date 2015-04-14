@@ -4,16 +4,9 @@
  */
 package mygame;
 
-import com.jme3.asset.AssetManager;
-import com.jme3.font.BitmapFont;
-import com.jme3.font.BitmapText;
-import com.jme3.font.Rectangle;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
