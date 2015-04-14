@@ -158,13 +158,14 @@ public class Main extends SimpleApplication {
         inputManager.addMapping("Mute",  new KeyTrigger(KeyInput.KEY_M));
         inputManager.addMapping("Select", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
         inputManager.addMapping("Restart", new KeyTrigger(KeyInput.KEY_R));
+        inputManager.addMapping("GetPoint", new MouseButtonTrigger(MouseInput.BUTTON_RIGHT));
         
         inputManager.addMapping("CorrectAnswer", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("WrongAnswer", new KeyTrigger(KeyInput.KEY_BACK));
         // Add the names to the action listener.
         inputManager.addListener(combinedListener, new String[]{ "Pause", "Mute", "Select", "Restart" });
         inputManager.addListener(combinedListener, new String[]{ "MouseRight", "MouseLeft", "MouseUp", "MouseDown"});
-        inputManager.addListener(combinedListener, new String[]{ "CorrectAnswer", "WrongAnswer"});
+        inputManager.addListener(combinedListener, new String[]{ "CorrectAnswer", "WrongAnswer", "GetPoint" });
     }
     
     //add listener for keystrokes/mouse input
@@ -183,13 +184,18 @@ public class Main extends SimpleApplication {
                 if (isRunning) {
                     removeQuestion("");
                 } else {
-                    questionText.setText("--Game Paused---");
+                    //questionText.setText("--Game Paused---");
+                    questionText.setText(String.valueOf(guiFont.getCharSet().getRenderedSize()));
                     showQuestion("Created by Jesse Young, inspired by class 209-15.");
                     canPause = true;
                 }
             }
             if (name.equals("Mute") && !isPressed) {
                 soundEnabled = !soundEnabled;
+            }
+            if (name.equals("GetPoint") && !isPressed) {
+                Vector2f click2d = inputManager.getCursorPosition();
+                System.out.println(click2d.toString());
             }
             if (name.equals("Restart") && !isPressed) {
                 restartRound(1);
@@ -368,15 +374,14 @@ public class Main extends SimpleApplication {
     }
     
     public void createQuestionText() {
+        ScreenAdjustment theScreen = new ScreenAdjustment(settings.getWidth(), settings.getHeight());
+        
         questionText.setSize(guiFont.getCharSet().getRenderedSize());
-        questionText.setLocalScale(4);
+        questionText.setLocalScale(theScreen.getQuestionScale());
         questionText.setText("");
         
-        questionText.setLocalTranslation(110,settings.getHeight(), 0);
-        questionText.setBox(new Rectangle(0,0,200,190));
-        
-        //questionText.setLocalTranslation(settings.getWidth()*0.14322916f,settings.getHeight(), 0);
-        //questionText.setBox(new Rectangle(0,0,settings.getWidth()*0.1953125f,settings.getHeight()*0.24739583f));
+        questionText.setLocalTranslation(theScreen.getQuestionXOffset(),settings.getHeight()+theScreen.getQuestionYOffset(), 0);
+        questionText.setBox(theScreen.getQuestionBox());
         
         questionText.setLineWrapMode(LineWrapMode.Word);
         questionText.setColor(ColorRGBA.Yellow);
@@ -386,19 +391,15 @@ public class Main extends SimpleApplication {
     }
     
     public void createCategoryText(int index) {
-        int multiplier = 162, xoffset = 44, yoffset = -30;
-        /*int multiplier = settings.getWidth(), xoffset = settings.getWidth();
-        int yoffset = settings.getHeight();
-        multiplier *= 0.2109375f; //adjust for screen changes
-        xoffset *= 0.0572916f; //adjust for screen changes
-        yoffset *= -0.0390625; //adjust for screen changes*/
+        ScreenAdjustment theScreen = new ScreenAdjustment(settings.getWidth(), settings.getHeight());
         
         categoryText[index].setSize(guiFont.getCharSet().getRenderedSize());
-        categoryText[index].setLocalScale(1.5f);
+        categoryText[index].setLocalScale(theScreen.getCategoryScale());
         categoryText[index].setText("");
-        categoryText[index].setLocalTranslation(index*multiplier+xoffset,settings.getHeight()+yoffset, 0);
+        categoryText[index].setLocalTranslation(index*theScreen.getCatMultiplier()+theScreen.getCatXOffset(),
+                settings.getHeight()+theScreen.getCatYOffset(), 0);
         
-        categoryText[index].setBox(new Rectangle(0,0,85,50));
+        categoryText[index].setBox(theScreen.getCategoryBox());
         categoryText[index].setLineWrapMode(LineWrapMode.Word);
         categoryText[index].setColor(ColorRGBA.Yellow);
         categoryText[index].setAlignment(BitmapFont.Align.Center);
