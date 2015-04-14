@@ -32,16 +32,17 @@ import com.jme3.system.AppSettings;
  * @author Jesse Young
  */
 public class Main extends SimpleApplication {
-
+    boolean isIntroToNetworks = true;
+    
     private static final int NUM_COLUMNS = 6;
     private static final int NUM_ROWS = 5;
     
     private int numQuestionsRemaining;
     private long startTime;
     
-    private boolean soundEnabled = false, isRunning, awaitingAnswer, gameOver, roundInitializing, canPause, isFullscreen;
+    private boolean soundEnabled = true, isRunning, awaitingAnswer, gameOver, roundInitializing, canPause, isFullscreen;
     
-    private static final String[] questionsFileName = new String[] { "Round1Questions.txt", "Round2Questions.txt" };
+    private static String[] questionsFileName;
     private int[] orderToLoadQuestions = new int[] {
         5, 24, 10, 6, 15, 29, 1, 20, 9, 22, 14, 4, 19, 0, 28, 26, 11, 2, 3, 16, 7, 27, 12, 17, 21, 23, 8, 13, 18, 25 };
     private int[] teamScores = new int[2];
@@ -78,12 +79,18 @@ public class Main extends SimpleApplication {
         setDisplayStatView(false);  // to hide the statistics
         cam.setLocation(new Vector3f(8.0f, 6.0f, 15.410577f));
         viewPort.setBackgroundColor(ColorRGBA.Blue);
+        isFullscreen = false;
         initKeys();
         initMark();
         initAudio();
+            
+        //ask if Intro to net or R&S
+        if(isIntroToNetworks) {
+            questionsFileName = new String[] { "IN_Round1.txt", "IN_Round2.txt" };
+        } else {
+            questionsFileName = new String[] { "RS_Round1.txt", "RS_Round2.txt" };
+        }
         
-        isFullscreen = false;
-                
         main = new Cube("Board", new Vector3f(8.0f, 6.0f, 1.0f), new Vector3f(8.0f, 6.0f, 0.0f));
         rootNode.attachChild(createCube(main, "BlankJeopardy.png"));
         
