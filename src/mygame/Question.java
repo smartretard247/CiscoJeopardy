@@ -94,38 +94,31 @@ public class Question extends Cube {
         try {
             theFileReader = new FileReader(".\\" + fromFile);
             
-            int theCharacterRead = 0, totalQuestionsLoaded = 1, totalCategories = 1;
-            for(int i = 0; i < numQuestions; i++) {
-                theCharacterRead = theFileReader.read(); //read the first character
-                
-                while(theCharacterRead != -1) {
-                    if(theCharacterRead != (char)'\n') {
-                        if(theCharacterRead == (char)'@') {
-                            --i; //make sure to restart on the same question number
-                            while((theCharacterRead = theFileReader.read()) != (char)'\n') {
-                                this.category[totalCategories-1] += (char)theCharacterRead;
-                            }
-                            ++totalCategories;
-                        } else {
-                            this.theQuestions[i] += (char)theCharacterRead;
-                            theCharacterRead = theFileReader.read();
-                        }
-                    } else {
-                        ++totalQuestionsLoaded;
-                        break;
+            int theCharacterRead = 0, totalQuestionsLoaded = 0, totalCategories = 0;
+            while((theCharacterRead = theFileReader.read()) != -1) {
+                if(theCharacterRead == (char)'@') {
+                    while((theCharacterRead = theFileReader.read()) != (char)'@') {
+                        this.category[totalCategories] += (char)theCharacterRead;
                     }
+                    ++totalCategories;
+                } else if(theCharacterRead == (char)'<'){
+                    while((theCharacterRead = theFileReader.read()) != (char)'>') {
+                        this.theQuestions[totalQuestionsLoaded] += (char)theCharacterRead;
+                    }
+                    ++totalQuestionsLoaded;
                 }
             }
             
             if(totalQuestionsLoaded < 30) {
                 throw new IOException("You must have 30 questions to play. You currently have " + totalQuestionsLoaded);
             }
-            
+
             if(totalCategories < 6) {
                 throw new IOException("You must have 6 categories to play. You currently have " + totalCategories);
             }
             
             theFileReader.close();
+            
         } catch (IOException ex) {
             Logger.getLogger(Question.class.getName()).log(Level.SEVERE, null, ex);
             return false;
