@@ -132,10 +132,7 @@ public class Question extends Cube {
         }
         
         //copy to temporary string array
-        String[] temp = new String[30];
-        for(int i = 0; i < 30; i++) {
-            temp[i] = this.theQuestions[i];
-        }
+        String[] temp = this.theQuestions.clone();
         
         //correct order of questions
         for(int j = 0; j < 5; j++) {
