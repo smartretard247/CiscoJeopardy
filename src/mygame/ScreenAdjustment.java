@@ -18,7 +18,7 @@ public class ScreenAdjustment {
     
     public ScreenAdjustment(int widthOfScreen, int heightOfScreen) {
         categoryBox = new Rectangle(0,0,85,50);
-        questionBox = new Rectangle(0,0,200,190);
+        questionBox = new Rectangle(0,0,300,250);
         
         switch (heightOfScreen) {
             case 768: //standard screen height
@@ -29,9 +29,9 @@ public class ScreenAdjustment {
                 catScale = 1.5f;
                 
                 //adjust question text size
-                qXOffset = 110;
+                qXOffset = 75;
                 qYOffset = 0;
-                qScale = 4.0f;
+                qScale = 3.0f;
                 break;
             case 480: //smaller screen height
                 //adjust category text size
