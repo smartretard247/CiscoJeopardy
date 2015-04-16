@@ -40,7 +40,7 @@ public class Main extends SimpleApplication {
     private int numQuestionsRemaining, numRound;
     private long startTime;
     
-    private boolean soundEnabled = true, isRunning, awaitingAnswer, gameOver, roundInitializing, canPause, isFullscreen;
+    private boolean soundEnabled = false, isRunning, awaitingAnswer, gameOver, roundInitializing, canPause, isFullscreen;
     
     private static String[] questionsFileName = new String[] { "IN_Round1.txt", "IN_Round2.txt", "RS_Round1.txt", "RS_Round2.txt" };
     private int[] orderToLoadQuestions = new int[] {
