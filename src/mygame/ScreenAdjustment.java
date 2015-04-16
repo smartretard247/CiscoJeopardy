@@ -17,21 +17,21 @@ public class ScreenAdjustment {
     private float qScale, catScale;
     
     public ScreenAdjustment(int widthOfScreen, int heightOfScreen) {
-        categoryBox = new Rectangle(0,0,85,50);
-        questionBox = new Rectangle(0,0,300,250);
+        categoryBox = new Rectangle(0,0,130,80);
+        questionBox = new Rectangle(0,0,315,250);
         
         switch (heightOfScreen) {
             case 768: //standard screen height
                 //adjust category text size
                 catMultiplier = 162;
                 catXOffset = 44;
-                catYOffset = -30;
-                catScale = 1.5f;
+                catYOffset = -28;
+                catScale = 1.0f;
                 
                 //adjust question text size
-                qXOffset = 75;
-                qYOffset = 0;
-                qScale = 3.0f;
+                qXOffset = 77;
+                qYOffset = -20;
+                qScale = 2.8f;
                 break;
             case 480: //smaller screen height
                 //adjust category text size
