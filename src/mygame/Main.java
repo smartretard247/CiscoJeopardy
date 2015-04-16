@@ -423,7 +423,7 @@ public class Main extends SimpleApplication {
         questionText.setLocalTranslation(theScreen.getQuestionXOffset(),settings.getHeight()+theScreen.getQuestionYOffset(), 0);
         questionText.setBox(theScreen.getQuestionBox());
         
-        questionText.setLineWrapMode(LineWrapMode.Clip);
+        questionText.setLineWrapMode(LineWrapMode.Word);
         questionText.setColor(ColorRGBA.Yellow);
         questionText.setAlignment(BitmapFont.Align.Center);
         questionText.setVerticalAlignment(BitmapFont.VAlign.Center);
