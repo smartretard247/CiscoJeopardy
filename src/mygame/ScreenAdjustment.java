@@ -4,6 +4,7 @@
  */
 package mygame;
 
+import com.jme3.font.LineWrapMode;
 import com.jme3.font.Rectangle;
 
 /**
@@ -15,10 +16,13 @@ public class ScreenAdjustment {
     private Rectangle questionBox;
     private int catMultiplier, catXOffset, catYOffset, qXOffset, qYOffset;
     private float qScale, catScale;
+    private LineWrapMode wrappingMode;
     
-    public ScreenAdjustment(int widthOfScreen, int heightOfScreen) {
+    public ScreenAdjustment(int widthOfScreen, int heightOfScreen, LineWrapMode clipping) {
+        this.wrappingMode = clipping;
+        
         categoryBox = new Rectangle(0,0,130,80);
-        questionBox = new Rectangle(0,0,315,250);
+        questionBox = new Rectangle(0,0,382,300);
         
         switch (heightOfScreen) {
             case 768: //standard screen height
@@ -31,7 +35,7 @@ public class ScreenAdjustment {
                 //adjust question text size
                 qXOffset = 77;
                 qYOffset = -20;
-                qScale = 2.8f;
+                qScale = 2.3f;
                 break;
             case 480: //smaller screen height
                 //adjust category text size
@@ -47,6 +51,10 @@ public class ScreenAdjustment {
                 break;
             default:
         }
+    }
+    
+    public LineWrapMode getLineWrapMode() {
+        return this.wrappingMode;
     }
     
     public int getQuestionXOffset() {
