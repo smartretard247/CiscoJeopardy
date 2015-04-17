@@ -119,7 +119,7 @@ public class Main extends SimpleApplication {
         teamScoreText.setColor(ColorRGBA.Black);
         
         questionText = new BitmapText(guiFont, false);
-        createQuestionText();
+        createQuestionText(LineWrapMode.Word);
         
         categoryNode = new Node("Category Titles");
         guiNode.attachChild(categoryNode);
@@ -384,7 +384,7 @@ public class Main extends SimpleApplication {
             gameOver = true;
         }
         
-        String roundStarted = "";
+        String roundStarted;
         if(numRound < 2) {
             roundStarted = "Intro To Networks -- Round " + (numRound+1);
         } else {
@@ -413,8 +413,8 @@ public class Main extends SimpleApplication {
         guiNode.attachChild(theText);
     }
     
-    public void createQuestionText() {
-        ScreenAdjustment theScreen = new ScreenAdjustment(settings.getWidth(), settings.getHeight());
+    public void createQuestionText(LineWrapMode wrapMode) {
+        ScreenAdjustment theScreen = new ScreenAdjustment(settings.getWidth(), settings.getHeight(), wrapMode);
         
         questionText.setSize(guiFont.getCharSet().getRenderedSize());
         questionText.setLocalScale(theScreen.getQuestionScale());
@@ -423,15 +423,15 @@ public class Main extends SimpleApplication {
         questionText.setLocalTranslation(theScreen.getQuestionXOffset(),settings.getHeight()+theScreen.getQuestionYOffset(), 0);
         questionText.setBox(theScreen.getQuestionBox());
         
-        questionText.setLineWrapMode(LineWrapMode.Word);
+        questionText.setLineWrapMode(theScreen.getLineWrapMode());
         questionText.setColor(ColorRGBA.Yellow);
         questionText.setAlignment(BitmapFont.Align.Center);
         questionText.setVerticalAlignment(BitmapFont.VAlign.Center);
         guiNode.attachChild(questionText);
     }
     
-    public void createCategoryText(int index) {
-        ScreenAdjustment theScreen = new ScreenAdjustment(settings.getWidth(), settings.getHeight());
+    public void createCategoryText(int index, LineWrapMode wrapMode) {
+        ScreenAdjustment theScreen = new ScreenAdjustment(settings.getWidth(), settings.getHeight(), wrapMode);
         
         categoryText[index].setSize(guiFont.getCharSet().getRenderedSize());
         categoryText[index].setLocalScale(theScreen.getCategoryScale());
@@ -440,7 +440,7 @@ public class Main extends SimpleApplication {
                 settings.getHeight()+theScreen.getCatYOffset(), 0);
         
         categoryText[index].setBox(theScreen.getCategoryBox());
-        categoryText[index].setLineWrapMode(LineWrapMode.Word);
+        categoryText[index].setLineWrapMode(theScreen.getLineWrapMode());
         categoryText[index].setColor(ColorRGBA.Yellow);
         categoryText[index].setAlignment(BitmapFont.Align.Center);
         categoryText[index].setVerticalAlignment(BitmapFont.VAlign.Center);
@@ -487,7 +487,7 @@ public class Main extends SimpleApplication {
     protected void initCategories() {
         for(int i = 0; i < categoryText.length; i++) {
             categoryText[i] = new BitmapText(guiFont, false);
-            createCategoryText(i);
+            createCategoryText(i, LineWrapMode.Word);
         }
         setCategoryText();
     }
