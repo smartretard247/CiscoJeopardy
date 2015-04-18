@@ -40,9 +40,10 @@ public class Main extends SimpleApplication {
     private int numQuestionsRemaining, numRound;
     private long startTime;
     
-    private boolean soundEnabled = true, isRunning, awaitingAnswer, gameOver, roundInitializing, canPause, isFullscreen;
+    private boolean soundEnabled = false, isRunning, awaitingAnswer, gameOver, roundInitializing, canPause, isFullscreen;
     
     private static String[] questionsFileName = new String[] { "IN_Round1.txt", "IN_Round2.txt", "RS_Round1.txt", "RS_Round2.txt" };
+    private static String[] answersFileName = new String[] { "IN_Answers1.txt", "IN_Answers2.txt", "RS_Answers1.txt", "RS_Answers2.txt" };
     private int[] orderToLoadQuestions = new int[] {
         5, 24, 10, 6, 15, 29, 1, 20, 9, 22, 14, 4, 19, 0, 28, 26, 11, 2, 3, 16, 7, 27, 12, 17, 21, 23, 8, 13, 18, 25 };
     private int[] teamScores = new int[2];
@@ -182,12 +183,13 @@ public class Main extends SimpleApplication {
         inputManager.addMapping("Restart", new KeyTrigger(KeyInput.KEY_F9));
         inputManager.addMapping("GetPoint", new MouseButtonTrigger(MouseInput.BUTTON_RIGHT));
         inputManager.addMapping("ToggleFullscreen", new KeyTrigger(KeyInput.KEY_F11));
+        inputManager.addMapping("ShowAnswer", new KeyTrigger(KeyInput.KEY_LMENU), new KeyTrigger(KeyInput.KEY_RMENU));
         inputManager.addMapping("CorrectAnswer", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("WrongAnswer", new KeyTrigger(KeyInput.KEY_BACK));
         // Add the names to the action listener.
         inputManager.addListener(combinedListener, new String[]{ "Exit", "Pause", "Mute", "Select", "Restart", "SwitchClasses" });
         inputManager.addListener(combinedListener, new String[]{ "MouseRight", "MouseLeft", "MouseUp", "MouseDown"});
-        inputManager.addListener(combinedListener, new String[]{ "CorrectAnswer", "WrongAnswer", "GetPoint", "ToggleFullscreen" });
+        inputManager.addListener(combinedListener, new String[]{ "ShowAnswer", "CorrectAnswer", "WrongAnswer", "GetPoint", "ToggleFullscreen" });
     }
     
     //add listener for keystrokes/mouse input
@@ -249,7 +251,6 @@ public class Main extends SimpleApplication {
                         boardCubeNode.collideWith(ray, results);
                         String hit = "";
                         for (int i = 0; i < results.size(); i++) {
-                            //Vector3f pt = results.getCollision(i).getContactPoint();
                             boardCubePicked = results.getCollision(i).getGeometry();
                             hit = boardCubePicked.getName();
 
@@ -266,6 +267,7 @@ public class Main extends SimpleApplication {
                                 question.setUserData("QuestionWorth", boardCubePicked.getUserData("Bet"));
                                 int index = boardCubePicked.getUserData("Index");
                                 questionText.setText(question.getQuestion(index));
+                                questionText.setUserData("Answer", question.getAnswer(index));
 
                                 boardCubeNode.detachChild(boardCubePicked);
                                 showQuestion("");
@@ -325,6 +327,10 @@ public class Main extends SimpleApplication {
                     awardPoints(teamAnswering,-points);
                     awaitingAnswer = !awaitingAnswer;
                 }
+                if (name.equals("ShowAnswer") && !isPressed) {
+                    String answer = question.getUserData("Answer");
+                    showAnswer(answer);
+                }
             }
         }
     }
@@ -377,6 +383,11 @@ public class Main extends SimpleApplication {
         screenText.setText(noteText);
     }
     
+    public void showAnswer(String noteText) {
+        rootNode.detachChild(mark);
+        questionText.setText("ANSWER: " + noteText);
+    }
+    
     public void restartRound(int roundToStart) {
         numRound = --roundToStart;
         //initiatize again
@@ -403,7 +414,7 @@ public class Main extends SimpleApplication {
         }
         removeQuestion(roundStarted);
         
-        initQuestions(questionsFileName[roundToStart]);
+        initQuestions(questionsFileName[roundToStart], answersFileName[roundToStart]);
         setCategoryText();
         
         if(roundToStart == 1 || roundToStart == 3) { initRound(true); } else { initRound(false); }
@@ -489,8 +500,8 @@ public class Main extends SimpleApplication {
         mark.setMaterial(mark_mat);
   }
     
-    protected void initQuestions(String fileName) { //initQuestions("IN_Jeopardy_Questions.txt");
-        question.loadQA(fileName);
+    protected void initQuestions(String questionsFileName, String answersFileName) { //initQuestions("IN_Jeopardy_Questions.txt");
+        question.loadQA(questionsFileName, answersFileName);
         question.getGeometry().setLocalTranslation(new Vector3f(8.0f, 16.0f, 7.2f));
         boardCubeNode.attachChild(createCube(question, "QuestionBack.png"));
     }
