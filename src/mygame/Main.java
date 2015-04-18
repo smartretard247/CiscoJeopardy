@@ -24,7 +24,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.shape.Sphere;
+import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
 
 /**
@@ -170,6 +170,7 @@ public class Main extends SimpleApplication {
     /** Custom Keybinding: Map named actions to inputs. */
     private void initKeys() {
         // You can map one or several inputs to one named action
+        inputManager.addMapping("Exit", new KeyTrigger(KeyInput.KEY_ESCAPE));
         inputManager.addMapping("MouseRight",  new MouseAxisTrigger(MouseInput.AXIS_X, true));
         inputManager.addMapping("MouseLeft",  new MouseAxisTrigger(MouseInput.AXIS_X, false));
         inputManager.addMapping("MouseUp",  new MouseAxisTrigger(MouseInput.AXIS_Y, true));
@@ -184,7 +185,7 @@ public class Main extends SimpleApplication {
         inputManager.addMapping("CorrectAnswer", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("WrongAnswer", new KeyTrigger(KeyInput.KEY_BACK));
         // Add the names to the action listener.
-        inputManager.addListener(combinedListener, new String[]{ "Pause", "Mute", "Select", "Restart", "SwitchClasses" });
+        inputManager.addListener(combinedListener, new String[]{ "Exit", "Pause", "Mute", "Select", "Restart", "SwitchClasses" });
         inputManager.addListener(combinedListener, new String[]{ "MouseRight", "MouseLeft", "MouseUp", "MouseDown"});
         inputManager.addListener(combinedListener, new String[]{ "CorrectAnswer", "WrongAnswer", "GetPoint", "ToggleFullscreen" });
     }
@@ -200,12 +201,15 @@ public class Main extends SimpleApplication {
         }
 
         public void onAction(String name, boolean isPressed, float tpf) {
+            if (name.equals("Exit") && !isPressed) {
+                System.exit(0);
+            }
             if (name.equals("Pause") && !isPressed && canPause && !roundInitializing) {
                 isRunning = !isRunning;
                 if (isRunning) {
                     removeQuestion("");
                 } else {
-                    questionText.setText("---Game Paused---\n\nSPACE - Correct!\nBACKSPACE - Incorrect!\nF5 - Toggles Class, IN or RS\nF9 - Restart\nF11 - Toggle Fullscreen\nM - Mute");
+                    questionText.setText("---Game Paused---\n\nSPACE - Correct!\nBACKSPACE - Incorrect!\nF5 - Toggles Class, IN or RS\nF9 - Restart\nF11 - Toggle Fullscreen\nM - Mute\nESC - Exit");
                     showQuestion("Created by SSG Jesse Young, inspired by class 209-15.");
                     canPause = true;
                 }
@@ -220,7 +224,7 @@ public class Main extends SimpleApplication {
             }
             if (name.equals("GetPoint") && !isPressed) {
                 Vector2f click2d = inputManager.getCursorPosition();
-                System.out.println(click2d.toString());
+                System.out.println("Screen Position: " + click2d.toString() + " World Coord: " + cam.getWorldCoordinates(click2d, 0.0f).toString());
             }
             if (name.equals("Restart") && !isPressed) {
                 if(numRound < 2) { restartRound(1); } else { restartRound(3); }
@@ -273,8 +277,15 @@ public class Main extends SimpleApplication {
                             // The closest collision point is what was truly hit:
                             CollisionResult closest = results.getClosestCollision();
                             // Let's interact - we mark the hit with a red dot.
-                            mark.setLocalTranslation(closest.getContactPoint());
-
+                            float x;
+                            if(closest.getContactPoint().x > 8.0f) {
+                                x = 10.0f;
+                            } else {
+                                x = 6.0f;
+                            }
+                            
+                            mark.setLocalTranslation(new Vector3f(x, 6.0f, closest.getContactPoint().z));
+                            
                             if(hit.equals("TheQuestion")) {
                                 //figure out what team clicked
                             } else {
@@ -471,8 +482,8 @@ public class Main extends SimpleApplication {
     }
     
     protected void initMark() {
-        Sphere sphere = new Sphere(30, 30, 0.2f);
-        mark = new Geometry("BOOM!", sphere);
+        Box mesh = new Box(2.0f, 6.0f, 0.1f);
+        mark = new Geometry("HighlightBoard", mesh);
         Material mark_mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mark_mat.setColor("Color", ColorRGBA.Red);
         mark.setMaterial(mark_mat);
