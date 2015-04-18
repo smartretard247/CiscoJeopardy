@@ -380,7 +380,7 @@ public class Main extends SimpleApplication {
     public void restartRound(int roundToStart) {
         numRound = --roundToStart;
         //initiatize again
-        if(soundEnabled) { audioStartRound.playInstance(); }
+        if(soundEnabled) { audioStartRound.play(); }
         numQuestionsRemaining = NUM_COLUMNS * NUM_ROWS;
         
         isRunning = true;
