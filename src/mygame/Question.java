@@ -86,13 +86,13 @@ public class Question extends Cube {
         }
     }
     
-    public boolean loadQA(String fromFile) {
+    public boolean loadQA(String questionsFromFile, String answerFromFile) {
         resetAll();
         
         FileReader theFileReader = null;
         //try creation of filereader so we can input questions
         try {
-            theFileReader = new FileReader(".\\" + fromFile);
+            theFileReader = new FileReader(".\\" + questionsFromFile);
             
             int theCharacterRead = 0, totalQuestionsLoaded = 0, totalCategories = 0;
             while((theCharacterRead = theFileReader.read()) != -1) {
