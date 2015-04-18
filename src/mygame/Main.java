@@ -336,7 +336,7 @@ public class Main extends SimpleApplication {
     private void showWinner(char team) {
         if(soundEnabled) { audioGameOver.playInstance(); }
         
-        showQuestion("Press 'F5' to restart game.");
+        showQuestion("Press 'F9' to restart game.");
         
         if(team == 'T') {
             questionText.setText("IT'S A TIE!");
