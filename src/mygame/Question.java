@@ -136,23 +136,21 @@ public class Question extends Cube {
         
         //correct order of questions
         if(qOrA == 'Q') {
-            for(int j = 0; j < 5; j++) {
-                for(int i = 0; i < 6; i++) {
-                    this.theQuestions[j*6+i] = temp[i*5+j];
-                }
-            }
+            reorderArray(temp, this.theQuestions);
         } else if(qOrA == 'A') {
-            for(int j = 0; j < 5; j++) {
-                for(int i = 0; i < 6; i++) {
-                    this.theAnswers[j*6+i] = temp[i*5+j];
-                }
-            }
+            reorderArray(temp, this.theAnswers);
+        } else {
+            return false;
         }
         
         return true;
     }
     
     private void reorderArray(String[] source, String[] dest) {
-        
+        for(int j = 0; j < 5; j++) {
+            for(int i = 0; i < 6; i++) {
+                dest[j*6+i] = source[i*5+j];
+            }
+        }
     }
 }
