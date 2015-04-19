@@ -211,7 +211,7 @@ public class Main extends SimpleApplication {
                 if (isRunning) {
                     removeQuestion("");
                 } else {
-                    questionText.setText("---Game Paused---\n\nSPACE - Correct!\nBACKSPACE - Incorrect!\nF5 - Toggles Class, IN or RS\nF9 - Restart\nF11 - Toggle Fullscreen\nM - Mute\nESC - Exit");
+                    questionText.setText("---Game Paused---\n\nALT - Show answer\nSPACE - Correct!\nBACKSPACE - Incorrect!\n\nF5 - Toggles Class, IN or RS\nF9 - Restart\nF11 - Toggle Fullscreen\nM - Mute\nESC - Exit");
                     showQuestion("Created by SSG Jesse Young, inspired by class 209-15.");
                     canPause = true;
                 }
@@ -385,7 +385,7 @@ public class Main extends SimpleApplication {
     
     public void showAnswer(String noteText) {
         rootNode.detachChild(mark);
-        questionText.setText("ANSWER: " + noteText);
+        questionText.setText("ANSWER: " + noteText + "\n\n\n");
         screenText.setText("Press SPACEBAR if correct answer was given, BACKSPACE if incorrect.");
     }
     
