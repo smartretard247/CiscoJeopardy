@@ -40,7 +40,7 @@ public class Main extends SimpleApplication {
     private int numQuestionsRemaining, numRound;
     private long startTime;
     
-    private boolean soundEnabled = false, isRunning, awaitingAnswer, gameOver, roundInitializing, canPause, isFullscreen;
+    private boolean soundEnabled = true, isRunning, awaitingAnswer, gameOver, roundInitializing, canPause, isFullscreen;
     
     private static String[] questionsFileName = new String[] { "IN_1.cjq", "IN_2.cjq", "RS_1.cjq", "RS_2.cjq" };
     private static String[] answersFileName = new String[] { "IN_1.cja", "IN_2.cja", "RS_1.cja", "RS_2.cja" };
