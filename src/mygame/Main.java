@@ -328,7 +328,7 @@ public class Main extends SimpleApplication {
                     awaitingAnswer = !awaitingAnswer;
                 }
                 if (name.equals("ShowAnswer") && !isPressed) {
-                    String answer = question.getUserData("Answer");
+                    String answer = questionText.getUserData("Answer");
                     showAnswer(answer);
                 }
             }
@@ -386,6 +386,7 @@ public class Main extends SimpleApplication {
     public void showAnswer(String noteText) {
         rootNode.detachChild(mark);
         questionText.setText("ANSWER: " + noteText);
+        screenText.setText("Press SPACEBAR if correct answer was given, BACKSPACE if incorrect.");
     }
     
     public void restartRound(int roundToStart) {
@@ -501,7 +502,8 @@ public class Main extends SimpleApplication {
   }
     
     protected void initQuestions(String questionsFileName, String answersFileName) { //initQuestions("IN_Jeopardy_Questions.txt");
-        question.loadQA(questionsFileName, answersFileName);
+        question.loadQA(questionsFileName, 'Q'); //load questions
+        question.loadQA(answersFileName, 'A'); //load anwers
         question.getGeometry().setLocalTranslation(new Vector3f(8.0f, 16.0f, 7.2f));
         boardCubeNode.attachChild(createCube(question, "QuestionBack.png"));
     }
