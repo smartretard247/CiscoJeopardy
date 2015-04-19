@@ -86,13 +86,23 @@ public class Question extends Cube {
         }
     }
     
-    public boolean loadQA(String questionsFromFile, String answerFromFile) {
-        resetAll();
+    public boolean loadQA(String fromFile, char qOrA) {
+        if(qOrA == 'Q') {
+            resetAll();
+        } else {
+            resetCategories();
+        }
+        
+        //initialize temporary string array
+        String[] temp = new String[numQuestions];
+        for(int i = 0; i < numQuestions; i++) {
+            temp[i] = new String();
+        }
         
         FileReader theFileReader = null;
         //try creation of filereader so we can input questions
         try {
-            theFileReader = new FileReader(".\\" + questionsFromFile);
+            theFileReader = new FileReader(".\\" + fromFile);
             
             int theCharacterRead = 0, totalQuestionsLoaded = 0, totalCategories = 0;
             while((theCharacterRead = theFileReader.read()) != -1) {
@@ -103,14 +113,14 @@ public class Question extends Cube {
                     ++totalCategories;
                 } else if(theCharacterRead == (char)'<'){
                     while((theCharacterRead = theFileReader.read()) != (char)'>') {
-                        this.theQuestions[totalQuestionsLoaded] += (char)theCharacterRead;
+                        temp[totalQuestionsLoaded] += (char)theCharacterRead;
                     }
                     ++totalQuestionsLoaded;
                 }
             }
             
             if(totalQuestionsLoaded < 30) {
-                throw new IOException("You must have 30 questions to play. You currently have " + totalQuestionsLoaded);
+                throw new IOException("You must have 30 questions/answers to play. You currently have " + totalQuestionsLoaded);
             }
 
             if(totalCategories < 6) {
@@ -124,16 +134,25 @@ public class Question extends Cube {
             return false;
         }
         
-        //copy to temporary string array
-        String[] temp = this.theQuestions.clone();
-        
         //correct order of questions
-        for(int j = 0; j < 5; j++) {
-            for(int i = 0; i < 6; i++) {
-                this.theQuestions[j*6+i] = temp[i*5+j];
+        if(qOrA == 'Q') {
+            for(int j = 0; j < 5; j++) {
+                for(int i = 0; i < 6; i++) {
+                    this.theQuestions[j*6+i] = temp[i*5+j];
+                }
+            }
+        } else if(qOrA == 'A') {
+            for(int j = 0; j < 5; j++) {
+                for(int i = 0; i < 6; i++) {
+                    this.theAnswers[j*6+i] = temp[i*5+j];
+                }
             }
         }
         
         return true;
+    }
+    
+    private void reorderArray(String[] source, String[] dest) {
+        
     }
 }
