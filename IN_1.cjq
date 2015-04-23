@@ -1,0 +1,200 @@
+@Exploring the Network@
+<What two criteria are used to help select a network medium from various network media? (Choose two.)
+
+a) the types of data that need to be prioritized
+b) the cost of the end devices utilized in the network
+c) the distance the selected medium can successfully carry a signal
+d) the number of intermediary devices installed in the network
+e) the environment where the selected medium is to be installed>
+<What are two functions of intermediary devices on a network? (Choose two.)
+
+a) They are the primary source and providers of information and services to end devices.
+b) They run applications that support collaboration for business.
+c) They form the interface between the human network and the underlying communication network.
+d) They direct data along alternate pathways when there is a link failure.
+e) They filter the flow of data, based on security settings.>
+<What is a characteristic of circuit-switched networks?
+
+a) If all circuits are busy, a new call cannot be placed.
+b) If a circuit fails, the call will be forwarded on a new path.
+c) Circuit-switched networks can dynamically learn and use redundant circuits.
+d) A single message can be broken into multiple message blocks that are transmitted through multiple circuits simultaneously.>
+<Which two Internet connection options do not require that physical cables be run to the building? (Choose two.)
+
+a) DSL
+b) cellular
+c) satellite
+d) dialup
+e) dedicated leased line>
+<Which three network tools provide the minimum required security protection for home users? (Choose three.)
+
+a) an intrusion prevention system
+b) antivirus software
+c) antispyware software
+d) access control lists
+e) a firewall
+f) powerline networking>
+@Configuring a Network Operating System@
+<Which two functions are provided to users by the context-sensitive help feature of the Cisco IOS CLI? (Choose two.)
+
+a) providing an error message when a wrong command is submitted
+b) displaying a list of all available commands within the current mode
+c) allowing the user to complete the remainder of an abbreviated command with the TAB key
+d) determining which option, keyword, or argument is available for the entered command
+e) selecting the best command to accomplish a task>
+<What is a result of using the service password-encryption command on a Cisco network device?
+
+a) The command encrypts the banner message.
+b) The command encrypts the enable mode password.
+c) All passwords in the configuration are not shown in clear text when viewing the configuration.
+d) A network administrator who later logs into the device will be required to enter an administrator password in order to gain access to the Cisco device.>
+<Which two features are characteristics of flash memory? (Choose two.)
+
+a) Flash provides nonvolatile storage.
+b) Flash receives a copy of the IOS from RAM when a device is powered on.
+c) The contents of flash may be lost during a power cycle.
+d) Flash is a component in Cisco switches but not in Cisco routers.
+e) The contents of flash may be overwritten.>
+<Which procedure is used to access a Cisco 2960 switch when performing an initial configuration in a secure environment?
+
+a) Use Telnet to remotely access the switch through the network.
+b) Use the console port to locally access the switch from a serial or USB interface of the PC.
+c) Use Secure Shell to remotely access the switch through the network?.
+d) Use the AUX port to locally access the switch from a serial or USB interface of the PC.>
+<A router has a valid operating system and a configuration stored in NVRAM. When the router boots up, which mode will display?
+
+a) global configuration mode
+b) setup mode
+c) ROM monitor mode
+d) user EXEC mode>
+@Network Protocols and Communication@
+<Which address does a NIC use when deciding whether to accept a frame?
+
+a) source IP address
+b) source MAC address
+c) destination IP address
+d) destination MAC address
+e) source Ethernet address>
+<Which address provides a unique host address for data communications at the internet layer?
+
+a) data-link address
+b) logical address
+c) Layer 2 address
+d) physical address>
+<What is the general term that is used to describe a piece of data at any layer of a networking model?
+
+a) frame
+b) packet
+c) protocol data unit
+d) segment>
+<Which IEEE standard enables a wireless NIC to connect to a wireless AP that is made by a different manufacturer?
+
+a) 802.1
+b) 802.11
+c) 802.3
+d) 802.2>
+<A computer in a given network is communicating with a specific group of computers. What type of communication is this?
+
+a) broadcast
+b) multicast
+c) unicast
+d) ARP
+e) HTTP>
+@Network Access@
+<A network administrator is designing the layout of a new wireless network. Which three areas of concern should be accounted for when building a wireless network? (Choose three.)
+
+a) mobility options
+b) security
+c) interference
+d) coverage area
+e) extensive cabling
+f) packet collision>
+<As data travels on the media in a stream of 1s and 0s how does a receiving node identify the beginning and end of a frame?
+
+a) The transmitting node inserts start and stop bits into the frame.
+b) The transmitting node sends a beacon to notify that a data frame is attached.
+c) The receiving node identifies the beginning of a frame by seeing a physical address.
+d) The transmitting node sends an out-of-band signal to the receiver about the beginning of the frame.>
+<Which layer of the OSI model is responsible for specifying the encapsulation method used for specific types of media?
+
+a) application
+b) transport
+c) data link
+d) physical>
+<How is the magnetic field cancellation effect enhanced in UTP cables?
+
+a) by increasing the thickness of the PVC sheath that encases all the wires
+b) by increasing and varying the number of twists in each wire pair
+c) by increasing the thickness of the copper wires
+d) by decreasing the number of wires that are used to carry data>
+<What is one advantage of using fiber optic cabling rather than copper cabling?
+
+a) It is usually cheaper than copper cabling.
+b) It is able to be installed around sharp bends.
+c) It is easier to terminate and install than copper cabling.
+d) It is able to carry signals much farther than copper cabling.>
+@Ethernet@
+<A host is trying to send a packet to a device on a remote LAN segment, but there are currently no mappings in its ARP cache. How will the device obtain a destination MAC address?
+
+a) It will send an ARP request for the MAC address of the destination device.
+b) It will send an ARP request for the MAC address of the default gateway.
+c) It will send the frame and use its own MAC address as the destination.
+d) It will send a request to the DNS server for the destination MAC address. >
+<Which two statements describe a fixed configuration Ethernet switch? (Choose two.)
+
+a) The switch cannot be configured with multiple VLANs.
+b) An SVI cannot be configured on the switch.
+c) A fixed configuration switch may be stackable.
+d) The number of ports on the switch cannot be increased.
+e) The port density of the switch is determined by the Cisco IOS.>
+<What is the purpose of the preamble in an Ethernet frame?
+
+a) is used as a padding for data
+b) is used for timing synchronization
+c) is used to identify the source address
+d) is used to identify the destination address>
+<What is a characteristic of a contention-based access method?
+
+a) It processes more overhead than the controlled access methods do.
+b) It has mechanisms to track the turns to access the media.
+c) It is a nondeterministic method.
+d) It scales very well under heavy media use.>
+<What statement illustrates a drawback of the CSMA/CD access method?
+
+a) Deterministic media access protocols slow network performance.
+b) It is more complex than non-deterministic protocols.
+c) Collisions can decrease network performance.
+d) CSMA/CD LAN technologies are only available at slower speeds than other LAN technologies.>
+@Network Layer@
+<A technician is manually configuring a computer with the necessary IP parameters to communicate over the corporate network. The computer already has an IP address, a subnet mask, and a DNS server. What else has to be configured for Internet access?
+
+a) the WINS server address
+b) the default gateway address
+c) the MAC address
+d) the domain name of the organization>
+<What is a service provided by the Flow Label field of the IPv6 header?
+
+a) It limits the lifetime of a packet.
+b) It identifies the total length of the IPv6 packet.
+c) It classifies packets for traffic congestion control.
+d) It informs network devices to maintain the same path for real-time application packets.>
+<Which IPv4 header field is responsible for defining the priority of the packet?
+
+a) flow label
+b) flags
+c) differentiated services
+d) traffic class>
+<Which statement about router interfaces is true?
+
+a) Router LAN interfaces are not activated by default, but router WAN interfaces are.
+b) Once the no shutdown command is given, a router interface is active and operational.
+c) Commands that apply an IP address and subnet mask to an interface are entered in global configuration mode.
+d) A configured and activated router interface must be connected to another device in order to operate.>
+<Which three commands are used to set up a password for a person who attaches a cable to a new router so that an initial configuration can be performed? (Choose three.)
+
+a) interface fastethernet 0/0
+b) line vty 0 4
+c) line console 0
+d) enable secret cisco
+e) login
+f) password cisco>

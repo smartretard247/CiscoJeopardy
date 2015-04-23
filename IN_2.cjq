@@ -1,0 +1,205 @@
+@Transport Layer@
+<Which two TCP header fields are used to confirm receipt of data?
+
+a) FIN flag
+b) SYN flag
+c) checksum
+d) sequence number
+e) acknowledgment number>
+<During a TCP session, a destination device sends an acknowledgment number to the source device. What does the acknowledgment number represent?
+
+a) the total number of bytes that have been received
+b) one number more than the sequence number
+c) the next byte that the destination expects to receive
+d) the last sequence number that was sent by the source>
+e) <Which two flags in the TCP header are used in a TCP three-way handshake to establish connectivity between two network devices? (Choose two.)
+
+a) ACK
+b) FIN
+c) PSH
+d) RST
+e) SYN
+f) URG>
+<A host device sends a data packet to a web server via the HTTP protocol. What is used by the transport layer to pass the data stream to the proper application on the server?
+
+a) sequence number
+b) acknowledgment
+c) source port number
+d) destination port number>
+<What is a socket?
+
+a) the combination of the source and destination IP address and source and destination Ethernet address
+b) the combination of a source IP address and port number or a destination IP address and port number
+c) the combination of the source and destination sequence and acknowledgment numbers
+d) the combination of the source and destination sequence numbers and port numbers>
+@IP Addressing@
+<What are three parts of an IPv6 global unicast address? (Choose three.)
+
+a) an interface ID that is used to identify the local network for a particular host
+b) a global routing prefix that is used to identify the network portion of the address
+c) a subnet ID that is used to identify networks inside of the local enterprise site
+d) a global routing prefix that is used to identify the portion of the network address provided by a local administrator
+e) an interface ID that is used to identify the local host on the network>
+<Which two things can be determined by using the ping command? (Choose two.)
+
+a) the number of routers between the source and destination device
+b) the IP address of the router nearest the destination device
+c) the average time it takes a packet to reach the destination and for the response to return to the source
+d) whether or not the destination device is reachable through the network
+e) the average time it takes each router in the path between source and destination to respond>
+<When will a router drop a traceroute packet?
+
+a) when the router receives an ICMP Time Exceeded message
+b) when the RTT value reaches zero
+c) when the host responds with an ICMP Echo Reply message
+d) when the value in the TTL field reaches zero
+e) when the values of both the Echo Request and Echo Reply messages reach zero>
+<A message is sent to all hosts on a remote network. Which type of message is it?
+
+a) limited broadcast
+b) multicast
+c) directed broadcast
+d) unicast>
+<How many bits are in an IPv4 address?
+
+a) 32
+b) 64
+c) 128
+d) 256>
+@Subnetting for IP Networks@
+<In a network that uses IPv4, what prefix would best fit a subnet containing 100 hosts?
+
+a) /23
+b) /24
+c) /25
+d) /26>
+<How many bits must be borrowed from the host portion of an address to accommodate a router with five connected networks?
+
+a) two
+b) three
+c) four
+d) five>
+<How many usable host addresses are there in the subnet 192.168.1.32/27?
+
+a) 32
+b) 30
+c) 64
+d) 16
+e) 62>
+<Which two reasons generally make DHCP the preferred method of assigning IP addresses to hosts on large networks? (Choose two.)
+
+a) It eliminates most address configuration errors.
+b) It ensures that addresses are only applied to devices that require a permanent address.
+c) It guarantees that every device that needs an address will get one.
+d) It provides an address only to devices that are authorized to be connected to the network.
+e) It reduces the burden on network support staff.>
+<Which two notations are useable nibble boundaries when subnetting in IPv6? (Choose two.)
+
+a) /62
+b) /64
+c) /66
+d) /68
+e) /70>
+@Application Layer@
+<Which three statements describe a DHCP Discover message? (Choose three.)
+
+a) The source MAC address is 48 ones (FF-FF-FF-FF-FF-FF).
+b) The destination IP address is 255.255.255.255.
+c) The message comes from a server offering an IP address.
+d) The message comes from a client seeking an IP address.
+e) All hosts receive the message, but only a DHCP server replies.
+f) Only the DHCP server receives the message.>
+<Which two actions are taken by SMTP if the destination email server is busy when email messages are sent? (Choose two.)
+
+a) SMTP sends an error message back to the sender and closes the connection.
+b) SMTP tries to send the messages at a later time.
+c) SMTP will discard the message if it is still not delivered after a predetermined expiration time.
+d) SMTP periodically checks the queue for messages and attempts to send them again.
+e) SMTP sends the messages to another mail server for delivery.>
+<Select three protocols that operate at the Application Layer of the OSI model. (Choose three.)
+
+a) ARP
+b) TCP
+c) DSL
+d) FTP
+e) POP3
+f) DHCP>
+<Which application layer protocol uses message types such as GET, PUT, and POST? 
+
+a) DNS
+b) DHCP
+c) SMTP
+d) HTTP
+e) POP3>
+<Which three layers of the OSI model provide similar network services to those provided by the application layer of the TCP/IP model? (Choose three.)
+
+a) physical layer
+b) session layer
+c) transport layer
+d) application layer
+e) presentation layer
+f) data link layer>
+@It's a Network@
+<Which two statements characterize wireless network security? (Choose two.)
+
+a) Wireless networks offer the same security features as wired networks.
+b) Some RF channels provide automatic encryption of wireless data.
+c) With SSID broadcast disabled, an attacker must know the SSID to connect.
+d) Using the default IP address on an access point makes hacking easier.
+e) An attacker needs physical access to at least one network device to launch an attack.>
+<Which WLAN security protocol generates a new dynamic key each time a client establishes a connection with the AP?
+
+a) EAP
+b) PSK
+c) WEP
+d) WPA>
+<Which command will backup the configuration that is stored in NVRAM to a TFTP server?
+
+a) copy running-config tftp
+b) copy tftp running-config
+c) copy startup-config tftp
+d) copy tftp startup-config >
+<What is a security feature of using NAT on a network?
+
+a) allows external IP addresses to be concealed from internal users
+b) allows internal IP addresses to be concealed from external users
+c) denies all packets that originate from private IP addresses
+d) denies all internal hosts from communicating outside their own network >
+<Which network design consideration would be more important to a large corporation than to a small business?
+
+a) Internet router
+b) firewall
+c) low port density switch
+d) redundancy>
+@Random@
+<Which two files, if found, are copied into RAM as a router with the default configuration register setting boots up? (Choose two.)
+
+a) running configuration
+b) IOS image file
+c) startup configuration
+d) POST diagnostics>
+<When would it be more efficient to use SMB to transfer files instead of FTP?
+
+a) when downloading large files with a variety of formats from different servers
+b) when a peer-to-peer application is required
+c) when the host devices on the network use the Windows operating system
+d) when downloading large numbers of files from the same server
+e) when uploading the same file to multiple remote servers>
+<A network administrator has determined that various computers on the network are infected with a worm. Which sequence of steps should be followed to mitigate the worm attack?
+
+a) inoculation, containment, quarantine, and treatment
+b) containment, quarantine, treatment, and inoculation
+c) treatment, quarantine, inoculation, and containment
+d) containment, inoculation, quarantine, and treatment>
+<An IPv6 enabled device sends a data packet with the destination address of FF02::1. What is the target of this packet?
+
+a) all IPv6 DHCP servers
+b) all IPv6 enabled nodes on the local link
+c) all IPv6 configured routers on the local link
+d) all IPv6 configured routers across the network>
+<A network administrator needs to monitor network traffic to and from servers in a data center. Which features of an IP addressing scheme should be applied to these devices?
+
+a) random static addresses to improve security
+b) addresses from different subnets for redundancy
+c) predictable static IP addresses for easier identification
+d) dynamic addresses to reduce the probability of duplicate addresses>
