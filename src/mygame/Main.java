@@ -56,6 +56,7 @@ public class Main extends SimpleApplication {
     protected Question question = new Question("TheQuestion", new Vector3f(4, 3, 1), new Vector3f(8.0f, 6.0f, 7.2f));
     private Geometry boardCubePicked, mark;
     protected BitmapText screenText, questionText, categoryText[] = new BitmapText[6], teamScoreText;
+    protected BitmapFont questionFont, categoryFont;
     private AudioNode audioStartRound, audioCorrect, audioWrong, audioGuess, audioDD, audioGameOver;
     
     public static void main(String[] args) {
@@ -113,6 +114,9 @@ public class Main extends SimpleApplication {
         // Display a line of text with a default font
         guiNode.detachAllChildren();
         guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
+        questionFont = assetManager.loadFont("Interface/Fonts/HelveticaNeue.fnt");
+        categoryFont = assetManager.loadFont("Interface/Fonts/HelveticaNeue.fnt");
+        
         screenText = new BitmapText(guiFont, false);
         createLineOfText(screenText, 1, 1);
         
@@ -120,7 +124,7 @@ public class Main extends SimpleApplication {
         createLineOfText(teamScoreText, 37, 2);
         teamScoreText.setColor(ColorRGBA.Black);
         
-        questionText = new BitmapText(guiFont, false);
+        questionText = new BitmapText(questionFont, false);
         createQuestionText(LineWrapMode.Word);
         
         categoryNode = new Node("Category Titles");
@@ -133,9 +137,9 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         if(isRunning) {
+            long elapsedTimeNs = System.nanoTime() - startTime;
+            
             if(roundInitializing) {
-                long elapsedTimeNs = System.nanoTime() - startTime;
-                
                 if(elapsedTimeNs > 120000000) {
                     if(numQuestionsRemaining == 0) {
                         roundInitializing = false; //done with cubes
@@ -146,6 +150,12 @@ public class Main extends SimpleApplication {
                         startTime = System.nanoTime();
                     }
                 }
+            } if(awaitingAnswer) {
+                if(elapsedTimeNs > 1200000000) {
+                    //display time's up
+                    System.out.println("Time's Up!");
+                }
+                startTime = System.nanoTime();
             } else {
                 if(numQuestionsRemaining == 0 && !gameOver  && !awaitingAnswer) {
                     screenText.setText("Round over.  Click anywhere to begin the next round.");
@@ -440,7 +450,7 @@ public class Main extends SimpleApplication {
     public void createQuestionText(LineWrapMode wrapMode) {
         ScreenAdjustment theScreen = new ScreenAdjustment(settings.getWidth(), settings.getHeight(), wrapMode);
         
-        questionText.setSize(guiFont.getCharSet().getRenderedSize());
+        questionText.setSize(questionFont.getCharSet().getRenderedSize());
         questionText.setLocalScale(theScreen.getQuestionScale());
         questionText.setText("");
         
@@ -457,7 +467,7 @@ public class Main extends SimpleApplication {
     public void createCategoryText(int index, LineWrapMode wrapMode) {
         ScreenAdjustment theScreen = new ScreenAdjustment(settings.getWidth(), settings.getHeight(), wrapMode);
         
-        categoryText[index].setSize(guiFont.getCharSet().getRenderedSize());
+        categoryText[index].setSize(categoryFont.getCharSet().getRenderedSize());
         categoryText[index].setLocalScale(theScreen.getCategoryScale());
         categoryText[index].setText("");
         categoryText[index].setLocalTranslation(index*theScreen.getCatMultiplier()+theScreen.getCatXOffset(),
@@ -480,7 +490,6 @@ public class Main extends SimpleApplication {
         for(int j = 0, k = NUM_ROWS-1, index = 0; j < NUM_ROWS; j++, k--) {
             for(int i = 0; i < NUM_COLUMNS; i++) {
                 int value = ((k+1)*cost);
-                //boardCubeNode.attachChild(createCube(boardCube[j][i], "Cost_" + value + ".png"));
                 tempCubeNode.attachChild(createCube(boardCube[j][i], "Cost_" + value + ".png"));
                 boardCube[j][i].getGeometry().setUserData("Bet", value);
                 boardCube[j][i].getGeometry().setUserData("Index", index++);
@@ -511,7 +520,7 @@ public class Main extends SimpleApplication {
     
     protected void initCategories() {
         for(int i = 0; i < categoryText.length; i++) {
-            categoryText[i] = new BitmapText(guiFont, false);
+            categoryText[i] = new BitmapText(categoryFont, false);
             createCategoryText(i, LineWrapMode.Word);
         }
         setCategoryText();
