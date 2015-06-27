@@ -1,0 +1,36 @@
+@Routing Dynamically@
+<a and b>
+<a and d>
+<c and d>
+<b and d>
+<e>
+@Single-Area OSPF@
+<a>
+<b and d>
+<d>
+<b>
+<b>
+@Access Control Lists@
+<c>
+<c>
+<c>
+<c and e>
+<b>
+@DHCP@
+<b>
+<c>
+<a>
+<d>
+<d>
+@Network Address Translation for IPv4@
+<a>
+<a and d>
+<a>
+<c>
+<c>
+@Random@
+<c and e>
+<a>
+<d>
+<a>
+<c>

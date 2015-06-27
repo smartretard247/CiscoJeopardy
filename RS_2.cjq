@@ -1,0 +1,196 @@
+@Routing Dynamically@
+<What two actions result from entering the network 192.168.1.0 command in RIP configuration mode on a router? (Choose two.)
+
+a) The network address 192.168.1.0 is advertised to the neighbor routers.
+b) Routing updates are sent through all the interfaces belonging to 192.168.1.0.
+c) The routing table is created in the RAM of the router.
+d) The RIP process is stopped and all existing RIP configurations are erased.
+e) The neighboring routers are sent a request for routing updates.>
+<Which two requirements are necessary before a router configured with a link-state routing protocol can build and send its link-state packets? (Choose two.)
+
+a) The router has determined the costs associated with its active links.
+b) The router has built its link-state database.
+c) The routing table has been refreshed.
+d) The router has established its adjacencies.
+e) The router has constructed an SPF tree.>
+<Which two events will trigger the sending of a link-state packet by a link-state routing protocol? (Choose two.)
+
+a) the router update timer expiring
+b) a link to a neighbor router has become congested
+c) a change in the topology
+d) the initial startup of the routing protocol process
+e) the requirement to periodically flood link-state packets to all neighbors>
+<What two tasks do dynamic routing protocols perform? (Choose two.)
+
+a) discover hosts
+b) update and maintain routing tables
+c) propagate host default gateways
+d) network discovery
+e) assign IP addressing>
+<What is the purpose of the passive-interface command?
+
+a) allows a routing protocol to forward updates out an interface that is missing its IP address
+b) allows a router to send routing updates on an interface but not receive updates via that innterface
+c) allows an interface to remain up without receiving keepalives
+d) allows interfaces to share IP addresses
+e) allows a router to receive routing updates on an interface but not send updates via that interface>
+@Single-Area OSPF@
+<Which command should be used to check the OSPF process ID, the router ID, networks the router is advertising, the neighbors the router is receiving updates from, and the default administrative distance?
+
+a) show ip protocols
+b) show ip ospf neighbor
+c) show ip ospf
+d) show ip ospf interface>
+<What are the two purposes of an OSPF router ID? (Choose two.)
+
+a) to facilitate the establishment of network convergence
+b) to uniquely identify the router within the OSPF domain
+c) to facilitate the transition of the OSPF neighbor state to Full
+d) to facilitate router participation in the election of the designated router
+e) to enable the SPF algorithm to determine the lowest cost path to remote networks>
+<Which command will provide information specific to OSPFv3 routes in the routing table?
+
+a) show ip route ospf
+b) show ip route
+c) show ipv6 route
+d) show ipv6 route ospf >
+<Which wildcard mask would be used to advertise the 192.168.5.96/27 network as part of an OSPF configuration?
+
+a) 0.0.0.32
+b) 0.0.0.31
+c) 255.255.255.224
+d) 255.255.255.223>
+<Which OSPF component is identical in all routers in an OSPF area after convergence?
+
+a) adjacency database
+b) link-state database
+c) routing table
+d) SPF tree>
+@Access Control Lists@
+<Which statement describes a difference between the operation of inbound and outbound ACLs?
+
+a) In contrast to outbound ALCs, inbound ACLs can be used to filter packets with multiple criteria.
+b) Inbound ACLs can be used in both routers and switches but outbound ACLs can be used only on routers.
+c) Inbound ACLs are processed before the packets are routed while outbound ACLs are processed after the routing is completed.
+d) On a network interface, more than one inbound ACL can be configured but only one outbound ACL can be configured.>
+<An administrator has configured an access list on R1 to allow SSH administrative access from host 172.16.1.100. Which command correctly applies the ACL?
+
+a) R1(config-if)# ip access-group 1 in
+b) R1(config-if)# ip access-group 1 out
+c) R1(config-line)# access-class 1 in
+d) R1(config-line)# access-class 1 out >
+<If a router has two interfaces and is routing both IPv4 and IPv6 traffic, how many ACLs could be created and applied to it?
+
+a) 4
+b) 6
+c) 8
+d) 12
+e) 16>
+<What two functions describe uses of an access control list? (Choose two.)
+
+a) ACLs assist the router in determining the best path to a destination.
+b) Standard ACLs can restrict access to specific applications and ports.
+c) ACLs provide a basic level of security for network access.
+d) ACLs can permit or deny traffic based upon the MAC address originating on the router.
+e) ACLs can control which areas a host can access on a network.>
+<Which statement describes a characteristic of standard IPv4 ACLs?
+
+a) They are configured in the interface configuration mode.
+b) They filter traffic based on source IP addresses only.
+c) They can be created with a number but not with a name.
+d) They can be configured to filter traffic based on both source IP addresses and source ports.>
+@DHCP@
+<A company uses the SLAAC method to configure IPv6 addresses for the employee workstations. Which address will a client use as its default gateway?
+
+a) the all-routers multicast address
+b) the link-local address of the router interface that is attached to the network
+c) the unique local address of the router interface that is attached to the network
+d)the global unicast address of the router interface that is attached to the network>
+<Which protocol supports Stateless Address Autoconfiguration (SLAAC) for dynamic assignment of IPv6 addresses to a host?
+
+a) ARPv6
+b) DHCPv6
+c) ICMPv6
+d) UDP >
+<What is the reason why the DHCPREQUEST message is sent as a broadcast during the DHCPv4 process?
+
+a) to notify other DHCP servers on the subnet that the IP address was leased
+b) to notify other hosts not to request the same IP address
+c) for hosts on other subnets to receive the information
+d) for routers to fill their routing tables with this new information>
+<Which is a DHCPv4 address allocation method that assigns IPv4 addresses for a limited lease period?
+
+a) manual allocation
+b) pre-allocation
+c) automatic allocation
+d) dynamic allocation>
+<Which DHCPv4 message will a client send to accept an IPv4 address that is offered by a DHCP server?
+
+a) unicast DHCPACK
+b) broadcast DHCPACK
+c) unicast DHCPREQUEST
+d) broadcast DHCPREQUEST>
+@Network Address Translation for IPv4@
+<A network administrator configures the border router with the command R1(config)# ip nat inside source list 4 pool corp. What is required to be configured in order for this particular command to be functional?
+
+a) a NAT pool named corp that defines the starting and ending public IP addresses
+b) an access list named corp that defines the private addresses that are affected by NAT
+c) an access list numbered 4 that defines the starting and ending public IP addresses
+d) a VLAN named corp to be enabled and active and routed by R1>
+<What are two required steps to configure PAT? (Choose two.)
+
+a) Define a pool of global addresses to be used for overload translation.
+b) Define a standard access list denying the addresses that should be translated.
+c) Define the range of ports to be used.
+d) Identify the inside interface.
+e) Define a standard access list that allow the outside global addresses to be used.>
+<Which version of NAT allows many hosts inside a private network to simultaneously use a single inside global address for connecting to the Internet?
+
+a) PAT
+b) static NAT
+c) dynamic NAT
+d) port forwarding>
+<What is the group of public IPv4 addresses used on a NAT-enabled router known as?
+
+a) outside local addresses
+b) inside local addresses
+c) inside global addresses
+d) outside global addresses>
+<Typically, which network device would be used to perform NAT for a corporate environment?
+
+a) DHCP server
+b) host device
+c) router
+d) server
+e) switch>
+@Random@
+<Which two requirements are used to determine if a route can be considered as an ultimate route in a router's routing table? (Choose two.)
+
+a) contain subnets
+b) be a default route
+c) contain an exit interface
+d) be a classful network entry
+e) contain a next-hop IP address>
+<A host on the 10.10.100.0/24 LAN is not being assigned an IPv4 address by a DHCP server with the address 10.10.200.10/24. What is the best way for the network engineer to resolve this problem?
+
+a) Issue the command ip helper-address 10.10.200.10 on the router interface that is the 10.10.100.0/24 gateway.
+b) Issue the command default-router 10.10.200.10 at the DHCP configuration prompt on the 10.10.100.0/24 LAN gateway router.
+c) Issue the command ip helper-address 10.10.100.0 on the router interface that is the 10.10.200.0/24 gateway.>
+<Which feature is unique to IPv6 ACLs when compared to those of IPv4 ACLs?
+
+a) the use of wildcard masks
+b) an implicit deny any any ACE
+c) the use of named ACL entries
+d) an implicit permit of neighbor discovery packets>
+<What happens to a port that is associated with VLAN 10 when the administrator deletes VLAN 10 from the switch?
+
+a) The port becomes inactive.
+b) The port goes back to the default VLAN.
+c) The port automatically associates itself with the native VLAN.
+d) The port creates the VLAN again. >
+<Which criterion is preferred by the router to choose a router ID?
+
+a) the IP address of the highest configured loopback interface on the router
+b) the IP address of the highest active interface on the router
+c) the router-id rid command
+d) the IP address of the highest active OSPF-enabled interface>

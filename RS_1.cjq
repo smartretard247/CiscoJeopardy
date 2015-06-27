@@ -1,0 +1,199 @@
+@Intro to Switched Networks@
+<What information is added to the switch table from incoming frames?
+
+a) source MAC address and incoming port number
+b) destination MAC address and incoming port number
+c) source IP address and incoming port number
+d) destination IP address and incoming port number>
+<What is one advantage of using the cut-through switching method instead of the store-and-forward switching method?
+
+a) has a positive impact on bandwidth by dropping most of the invalid frames
+b) makes a fast forwarding decision based on the source MAC address of the frame
+c) has a lower latency appropriate for high-performance computing applications?
+d) provides the flexibility to support any mix of Ethernet speeds>
+<What are two advantages of modular switches over fixed-configuration switches? (Choose two.)
+
+a) lower cost per switch
+b) increased scalability
+c) lower forwarding rates
+d) need for fewer power outlets
+e) availability of multiple ports for bandwidth aggregation>
+<What are two reasons a network administrator would segment a network with a Layer 2 switch? (Choose two.)
+
+a) to create fewer collision domains
+b) to enhance user bandwidth
+c) to create more broadcast domains
+d) to eliminate virtual circuits
+e) to isolate traffic between segments
+f) to isolate ARP request messages from the rest of the network>
+<What is a basic function of the Cisco Borderless Architecture access layer?
+
+a) aggregates Layer 2 broadcast domains
+b) aggregates Layer 3 routing boundaries
+c) provides access to the user
+d) provides high availability>
+@Basic Switching Concepts@
+<Which two statements are true regarding switch port security? (Choose two.)
+
+a) The three configurable violation modes all log violations via SNMP.
+b) Dynamically learned secure MAC addresses are lost when the switch reboots.
+c) The three configurable violation modes all require user intervention to re-enable ports.
+d) Dynamically learned addresses are added to CAM until the maximum number is reached.>
+<Which action will bring an error-disabled switch port back to an operational state?
+
+a) Remove and reconfigure port security on the interface.
+b) Issue the switchport mode access command on the interface.
+c) Clear the MAC address table on the switch.
+d) Issue the shutdown and then no shutdown interface commands.>
+<Which protocol or service sends broadcasts containing the Cisco IOS software version of the sending device, and the packets of which can be captured by malicious hosts on the network?
+
+a) CDP
+b) DHCP
+c) DNS
+d) SSH>
+<In which type of attack does a malicious node request all available IP addresses in the address pool of a DHCP server in order to prevent legitimate hosts from obtaining network access?
+
+a) CAM table overflow
+b) MAC address flooding
+c) DHCP starvation
+d) DHCP spoofing>
+<Which interface is the default location that would contain the IP address used to manage a 24-port Ethernet switch?
+
+a) VLAN 1
+b) Fa0/0
+c) Fa0/1
+d) interface connected to the default gateway
+e) VLAN 99>
+@VLANs@
+<Which command should the network administrator implement to prevent the transfer of DTP frames between a Cisco switch and a non-Cisco switch?
+
+a) switchport mode trunk
+b) switchport nonegotiate
+c) switchport mode dynamic desirable
+d) switchport mode access
+e) switchport trunk allowed vlan none>
+<A Cisco switch currently allows traffic tagged with VLANs 10 and 20 across trunk port Fa0/5. What is the effect of issuing a switchport trunk allowed vlan 30 command on Fa0/5?
+
+a) It allows VLANs 1  to 30 on Fa0/5.
+b) It allows VLANs 10, 20, and 30 on Fa0/5.
+c) It allows only VLAN 30 on Fa0/5.
+d) It allows a native VLAN of 30 to be implemented on Fa0/5.>
+<Which command displays the encapsulation type, the voice VLAN ID, and the access mode VLAN for the Fa0/1 interface?
+
+a) show vlan brief
+b) show interfaces Fa0/1 switchport
+c) show mac address-table interface Fa0/1
+d) show interfaces trunk>
+<A network administrator is determining the best placement of VLAN trunk links. Which two types of point-to-point connections utilize VLAN trunking? (Choose two.)
+
+a) between two switches that utilize multiple VLANs
+b) between a switch and a client PC
+c) between a switch and a server that has an 802.1Q NIC
+d) between two switches that share a common VLAN>
+<Which two statements are true about VLAN implementation? (Choose two.)
+
+a) The size of the collision domain is reduced.
+b) The number of required switches in a network decreases.
+c) VLANs logically group hosts, regardless of physical location.
+d) Devices in one VLAN do not hear the broadcasts from devices in another VLAN.>
+@Routing Concepts@
+<Which statements correctly describe the concepts of admin distance and metric? (Choose two.)
+
+a) Admin distance refers to the trustworthiness of a particular route.
+b) A router first installs routes with higher admin distances.
+c) The value of the admin distance can not be altered by the network administrator.
+d) Routes with the smallest metric to a destination indicate the best path.
+e) The metric is always determined based on hop count.>
+<When configuring a router, what is the purpose of this command?
+ip route 0.0.0.0 0.0.0.0 209.165.200.226
+
+a) to forward all packets to the device with IP address 209.165.200.226
+b) to add a dynamic route for the destination network 0.0.0.0 to the routing table
+c) to forward packets destined for the network 0.0.0.0 to the device with IP address 209.165.200.226
+d) to provide a route to forward packets for which there is no route in the routing table>
+<A network administrator is implementing dynamic routing protocols for a company. Which command can the administrator issue on a router to display the supported routing protocols?
+
+a) Router(config)# router ?
+b) Router(config)# service ?
+c) Router(config)# ip route ?
+d) Router(config)# ip forward-protocol ?>
+<Which statement describes a route that has been learned dynamically?
+
+a) It is automatically updated and maintained by routing protocols.
+b) It is unaffected by changes in the topology of the network.
+c) It has an administrative distance of 1.
+d) It is identified by the prefix C in the routing table.>
+<What are two functions of a router? (Choose two.)
+
+a) It connects multiple IP networks.
+b) It controls the flow of data via the use of Layer 2 addresses.
+c) It determines the best path to send packets.
+d) It manages the VLAN database.
+e) It increases the size of the broadcast domain.>
+@Inter-VLAN Routing@
+<Which two commands could an administrator use to verify inter-VLAN communication is working properly between a router and a switch when the R-O-A-S design method is implemented? (Choose two.)
+
+a) Router# show ip route
+b) Router# show interfaces trunk
+c) Router# show interfaces interface
+d) Switch# show vlans
+e) Switch# show interfaces trunk>
+<While configuring inter-VLAN routing on a multilayer switch, a network administrator issues the no switchport command on an interface that is connected to another switch. What is the purpose of this command?
+
+a) to provide a static trunk link
+b) to create a routed port for a single network
+c) to create a switched virtual interface
+d) to provide an access link that tags VLAN traffic>
+<What condition is required to enable Layer 3 switching?
+
+a) The Layer 3 switch must have IP routing enabled.
+b) All participating switches must have unique VLAN numbers.
+c) All routed subnets must be on the same VLAN.
+d) Inter-VLAN portions of Layer 3 switching must use router-on-a-stick.>
+<What is needed to enable communication between two VLANs while using legacy inter-VLAN routing?
+
+a) A router with at least two LAN interfaces should be used.
+b) Two groups of switches are needed, each with ports that are configured for one VLAN.
+c) A router with one VLAN interface is needed to connect to the SVI on a switch.
+d) A switch with a port that is configured as trunk is needed to connect to a router.>
+<Which type of inter-VLAN communication design requires the configuration of multiple subinterfaces?
+
+a) router on a stick
+b) routing via a multilayer switch
+c) routing for the management VLAN
+d) legacy inter-VLAN routing>
+@Static Routing@
+<Which three IOS troubleshooting commands can help to isolate problems with a static route? (Choose three.)
+
+a) show version
+b) ping
+c) tracert
+d) show ip route
+e) show ip interface brief
+f) show arp>
+<Why would a floating static route be configured with an administrative distance that is higher than the administrative distance of a dynamic routing protocol that is running on the same router?
+
+a) to be used as a backup route
+b) to load-balance the traffic
+c) to act as a gateway of last resort
+d) to be the priority route in the routing table>
+<Which two statements describe classful IP addresses? (Choose two.)
+
+a) It is possible to determine which class an address belongs to by reading the first bit.
+b) The number of bits used to identify the hosts is fixed by the class of the network.
+c) Only Class A addresses can be represented by high-order bits 100.
+d) Up to 24 bits can make up the host portion of a Class C address.
+e) All subnets in a network are the same size.>
+<What type of route allows a router to forward packets even though its routing table contains no specific route to the destination network?
+
+a) dynamic route
+b) default route
+c) destination route
+d) generic route>
+<What are two advantages of static routing over dynamic routing? (Choose two.)
+
+a) Static routing is more secure because it does not advertise over the network.
+b) Static routing scales well with expanding networks.
+c) Static routing requires very little knowledge of the network for correct implementation.
+d) Static routing uses fewer router resources than dynamic routing.
+e) Static routing is relatively easy to configure for large networks.>
