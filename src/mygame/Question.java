@@ -102,7 +102,7 @@ public class Question extends Cube {
         FileReader theFileReader = null;
         //try creation of filereader so we can input questions
         try {
-            theFileReader = new FileReader(".\\" + fromFile);
+            theFileReader = new FileReader(fromFile);
             
             int theCharacterRead = 0, totalQuestionsLoaded = 0, totalCategories = 0;
             while((theCharacterRead = theFileReader.read()) != -1) {
