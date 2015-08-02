@@ -40,7 +40,7 @@ public class Main extends SimpleApplication {
     private int numQuestionsRemaining, numRound;
     private long startTime;
     
-    private boolean soundEnabled = false, isRunning, awaitingAnswer, gameOver, roundInitializing, canPause, isFullscreen;
+    private boolean soundEnabled = true, isRunning, awaitingAnswer, showingAnswer = false, gameOver, roundInitializing, canPause, isFullscreen;
     
     //filenames need '.\\' prefix for PC, none for MacOS
     private static String[] questionsFileName = new String[] { "IN_1.cjq", "IN_2.cjq", "RS_1.cjq", "RS_2.cjq" };
@@ -326,19 +326,24 @@ public class Main extends SimpleApplication {
             }
             
             if(isRunning && awaitingAnswer) {
-                if (name.equals("CorrectAnswer") && !isPressed) {
-                    if(soundEnabled) { audioCorrect.playInstance(); }
-                    int points = question.getUserData("QuestionWorth");
-                    awardPoints(teamAnswering,points);
-                    awaitingAnswer = !awaitingAnswer;
-                }
-                if (name.equals("WrongAnswer") && !isPressed) {
-                    if(soundEnabled) { audioWrong.playInstance(); }
-                    int points = question.getUserData("QuestionWorth");
-                    awardPoints(teamAnswering,-points);
-                    awaitingAnswer = !awaitingAnswer;
+                if(showingAnswer) {
+                    if (name.equals("CorrectAnswer") && !isPressed) {
+                        if(soundEnabled) { audioCorrect.playInstance(); }
+                        int points = question.getUserData("QuestionWorth");
+                        awardPoints(teamAnswering,points);
+                        awaitingAnswer = !awaitingAnswer;
+                        showingAnswer = false;
+                    }
+                    if (name.equals("WrongAnswer") && !isPressed) {
+                        if(soundEnabled) { audioWrong.playInstance(); }
+                        int points = question.getUserData("QuestionWorth");
+                        awardPoints(teamAnswering,-points);
+                        awaitingAnswer = !awaitingAnswer;
+                        showingAnswer = false;
+                    }
                 }
                 if (name.equals("ShowAnswer") && !isPressed) {
+                    showingAnswer = true;
                     String answer = questionText.getUserData("Answer");
                     showAnswer(answer);
                 }
@@ -408,6 +413,7 @@ public class Main extends SimpleApplication {
         
         isRunning = true;
         awaitingAnswer = false;
+        showingAnswer = false;
         teamAnswering = 0;
         
         if(roundToStart == 0 || roundToStart == 2) {
