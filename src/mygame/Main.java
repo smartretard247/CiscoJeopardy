@@ -43,8 +43,8 @@ public class Main extends SimpleApplication {
     private boolean soundEnabled = false, isRunning, awaitingAnswer, gameOver, roundInitializing, canPause, isFullscreen;
     
     //filenames need '.\\' prefix for PC, none for MacOS
-    private static String[] questionsFileName = new String[] { "IN_1.cjq", ".\\IN_2.cjq", ".\\RS_1.cjq", ".\\RS_2.cjq" };
-    private static String[] answersFileName = new String[] { "IN_1.cja", ".\\IN_2.cja", ".\\RS_1.cja", ".\\RS_2.cja" };
+    private static String[] questionsFileName = new String[] { "IN_1.cjq", "IN_2.cjq", "RS_1.cjq", "RS_2.cjq" };
+    private static String[] answersFileName = new String[] { "IN_1.cja", "IN_2.cja", "RS_1.cja", "RS_2.cja" };
     private int[] orderToLoadQuestions = new int[] {
         5, 24, 10, 6, 15, 29, 1, 20, 9, 22, 14, 4, 19, 0, 28, 26, 11, 2, 3, 16, 7, 27, 12, 17, 21, 23, 8, 13, 18, 25 };
     private int[] teamScores = new int[2];
