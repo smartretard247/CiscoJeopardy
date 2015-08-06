@@ -37,10 +37,12 @@ public class Main extends SimpleApplication {
     private static final int NUM_COLUMNS = 6;
     private static final int NUM_ROWS = 5;
     
-    private int numQuestionsRemaining, numRound;
+    private static final int TIME_LIMIT = 10;
+    
+    private int numQuestionsRemaining, numRound, timeRemaining;
     private long startTime;
     
-    private boolean soundEnabled = true, isRunning, awaitingAnswer, showingAnswer = false, gameOver, roundInitializing, canPause, isFullscreen;
+    private boolean soundEnabled = true, isRunning, awaitingAnswer, outOfTime, showingAnswer = false, gameOver, roundInitializing, canPause, isFullscreen;
     
     //filenames need '.\\' prefix for PC, none for MacOS
     private static String[] questionsFileName = new String[] { "IN_1.cjq", "IN_2.cjq", "RS_1.cjq", "RS_2.cjq" };
@@ -57,7 +59,7 @@ public class Main extends SimpleApplication {
     private Geometry boardCubePicked, mark;
     protected BitmapText screenText, questionText, categoryText[] = new BitmapText[6], teamScoreText;
     protected BitmapFont questionFont, categoryFont;
-    private AudioNode audioStartRound, audioCorrect, audioWrong, audioGuess, audioDD, audioGameOver;
+    private AudioNode audioStartRound, audioCorrect, audioWrong, audioTimeOut, audioGuess, audioDD, audioGameOver;
     
     public static void main(String[] args) {
         Main app = new Main();
@@ -150,12 +152,21 @@ public class Main extends SimpleApplication {
                         startTime = System.nanoTime();
                     }
                 }
-            } if(awaitingAnswer) {
-                if(elapsedTimeNs > 1200000000) {
-                    //display time's up
-                    System.out.println("Time's Up!");
+            } else if(awaitingAnswer) {
+                if((elapsedTimeNs > 1000000000) && !showingAnswer && !outOfTime) {
+                    timeRemaining--;
+                    startTime = System.nanoTime();
+
+                    if(timeRemaining == 0) {
+                        System.out.println("Time's Up!"); //display time's up
+                        outOfTime = true;
+                        
+                        if(soundEnabled) { audioTimeOut.playInstance(); }
+                        this.combinedListener.onAction("ShowAnswer", false, 0.0f); //send ALT key
+                    } else {
+                        screenText.setText("Time remaining: " +  timeRemaining);
+                    }
                 }
-                startTime = System.nanoTime();
             } else {
                 if(numQuestionsRemaining == 0 && !gameOver  && !awaitingAnswer) {
                     screenText.setText("Round over.  Click anywhere to begin the next round.");
@@ -341,6 +352,10 @@ public class Main extends SimpleApplication {
                         awaitingAnswer = !awaitingAnswer;
                         showingAnswer = false;
                     }
+                } else {
+                    startTime = System.nanoTime(); //begin timer for answer
+                    timeRemaining = TIME_LIMIT;
+                    outOfTime = false;
                 }
                 if (name.equals("ShowAnswer") && !isPressed) {
                     showingAnswer = true;
@@ -545,11 +560,17 @@ public class Main extends SimpleApplication {
         audioCorrect.setVolume(2);
         rootNode.attachChild(audioCorrect);
         
-        audioWrong = new AudioNode(assetManager, "Sounds/Jeopardy-time.wav", false);
+        audioWrong = new AudioNode(assetManager, "Sounds/Jeopardy-wrong.wav", false);
         audioWrong.setPositional(false);
         audioWrong.setLooping(false);
         audioWrong.setVolume(2);
         rootNode.attachChild(audioWrong);
+        
+        audioTimeOut = new AudioNode(assetManager, "Sounds/Jeopardy-time.wav", false);
+        audioTimeOut.setPositional(false);
+        audioTimeOut.setLooping(false);
+        audioTimeOut.setVolume(2);
+        rootNode.attachChild(audioTimeOut);
         
         audioGuess = new AudioNode(assetManager, "Sounds/Jeopardy-ringin.wav", false);
         audioGuess.setPositional(false);
