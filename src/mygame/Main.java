@@ -50,9 +50,11 @@ public class Main extends SimpleApplication {
     private int[] orderToLoadQuestions = new int[] {
         5, 24, 10, 6, 15, 29, 1, 20, 9, 22, 14, 4, 19, 0, 28, 26, 11, 2, 3, 16, 7, 27, 12, 17, 21, 23, 8, 13, 18, 25 };
     private int[] teamScores = new int[2];
-    private int lastQuestionWasWorth = 0;
-    private boolean lastQuestionCorrect = false;
     private char teamAnswering;
+    
+    private int lastQuestionWasWorth = 0;
+    private boolean lastQuestionCorrect = false, lastQuestionReversed = false;
+    
     
     protected Cube main;
     protected Node boardCubeNode, tempCubeNode, categoryNode;
@@ -236,7 +238,7 @@ public class Main extends SimpleApplication {
                 if (isRunning) {
                     removeQuestion("");
                 } else {
-                    questionText.setText("---Game Paused---\n\nALT - Show answer\nSPACE - Correct!\nBACKSPACE - Incorrect!\n\nF5 - Toggles Class, IN or RS\nF9 - Restart\nF11 - Toggle Fullscreen\nM - Mute\nESC - Exit");
+                    questionText.setText("---Game Paused---\n\nALT - Show answer\nSPACE - Correct!\nBACKSPACE - Incorrect!\nU - Reverse last points awarded\n\nF5 - Toggle Class, IN or RS\nF9 - Restart\nF11 - Toggle Fullscreen\nM - Mute\nESC - Exit");
                     showQuestion("Created by SSG Jesse Young, inspired by class 209-15.");
                     canPause = true;
                 }
@@ -259,7 +261,7 @@ public class Main extends SimpleApplication {
             if (name.equals("SwitchClasses") && !isPressed) {
                 if(numRound < 2) { restartRound(3); } else { restartRound(1); }
             }
-            if (name.equals("UndoPoints") && !isPressed) {
+            if (name.equals("UndoPoints") && !isPressed && !lastQuestionReversed) {
                 int multiplier = 1;
                 if(!lastQuestionCorrect) { multiplier = -1; }
                 
@@ -269,6 +271,8 @@ public class Main extends SimpleApplication {
                     case 'B': teamScores[1] -= (lastQuestionWasWorth*2) * multiplier;
                         break;
                 }
+                
+                lastQuestionReversed = true;
             }
             if(isRunning && !awaitingAnswer && !roundInitializing) {
                 if (name.equals("Select") && !isPressed && (elapsedTimeNs > 1000000000)) {
@@ -298,6 +302,7 @@ public class Main extends SimpleApplication {
                                     teamAnswering = 'B';//team A answering
                                 }
 
+                                lastQuestionReversed = false;
                                 timerStarted = true;
 
                                 awaitingAnswer = !awaitingAnswer; //pauses until question answered
