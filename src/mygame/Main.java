@@ -50,6 +50,8 @@ public class Main extends SimpleApplication {
     private int[] orderToLoadQuestions = new int[] {
         5, 24, 10, 6, 15, 29, 1, 20, 9, 22, 14, 4, 19, 0, 28, 26, 11, 2, 3, 16, 7, 27, 12, 17, 21, 23, 8, 13, 18, 25 };
     private int[] teamScores = new int[2];
+    private int lastQuestionWasWorth = 0;
+    private boolean lastQuestionCorrect = false;
     private char teamAnswering;
     
     protected Cube main;
@@ -208,10 +210,11 @@ public class Main extends SimpleApplication {
         inputManager.addMapping("ShowAnswer", new KeyTrigger(KeyInput.KEY_LMENU), new KeyTrigger(KeyInput.KEY_RMENU));
         inputManager.addMapping("CorrectAnswer", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("WrongAnswer", new KeyTrigger(KeyInput.KEY_BACK));
+        inputManager.addMapping("UndoPoints",  new KeyTrigger(KeyInput.KEY_U));
         // Add the names to the action listener.
         inputManager.addListener(combinedListener, new String[]{ "Exit", "Pause", "Mute", "Select", "Restart", "SwitchClasses" });
         inputManager.addListener(combinedListener, new String[]{ "MouseRight", "MouseLeft", "MouseUp", "MouseDown"});
-        inputManager.addListener(combinedListener, new String[]{ "ShowAnswer", "CorrectAnswer", "WrongAnswer", "GetPoint", "ToggleFullscreen" });
+        inputManager.addListener(combinedListener, new String[]{ "ShowAnswer", "CorrectAnswer", "WrongAnswer", "UndoPoints", "GetPoint", "ToggleFullscreen" });
     }
     
     //add listener for keystrokes/mouse input
@@ -220,13 +223,11 @@ public class Main extends SimpleApplication {
 
         public void onAnalog(String name, float value, float tpf) {
             if(isRunning) {
-                
+                //do something...
             }
         }
 
         public void onAction(String name, boolean isPressed, float tpf) {
-            
-            
             if (name.equals("Exit") && !isPressed) {
                 System.exit(0);
             }
@@ -257,6 +258,17 @@ public class Main extends SimpleApplication {
             }
             if (name.equals("SwitchClasses") && !isPressed) {
                 if(numRound < 2) { restartRound(3); } else { restartRound(1); }
+            }
+            if (name.equals("UndoPoints") && !isPressed) {
+                int multiplier = 1;
+                if(!lastQuestionCorrect) { multiplier = -1; }
+                
+                switch(teamAnswering) {
+                    case 'A': teamScores[0] -= (lastQuestionWasWorth*2) * multiplier;
+                        break;
+                    case 'B': teamScores[1] -= (lastQuestionWasWorth*2) * multiplier;
+                        break;
+                }
             }
             if(isRunning && !awaitingAnswer && !roundInitializing) {
                 if (name.equals("Select") && !isPressed && (elapsedTimeNs > 1000000000)) {
@@ -292,7 +304,9 @@ public class Main extends SimpleApplication {
                                 --numQuestionsRemaining; //keep track of how many questions left
                             } else {
                                 startTime = System.nanoTime();
-                                        
+                                
+                                lastQuestionWasWorth = boardCubePicked.getUserData("Bet"); //save question amount in case of error
+                                
                                 question.setUserData("QuestionWorth", boardCubePicked.getUserData("Bet"));
                                 int index = boardCubePicked.getUserData("Index");
                                 questionText.setText(question.getQuestion(index));
@@ -350,6 +364,7 @@ public class Main extends SimpleApplication {
                         int points = question.getUserData("QuestionWorth");
                         awardPoints(teamAnswering,points);
                         awaitingAnswer = !awaitingAnswer;
+                        lastQuestionCorrect = true;
                         showingAnswer = false;
                         timerStarted = false;
                     }
@@ -358,6 +373,7 @@ public class Main extends SimpleApplication {
                         int points = question.getUserData("QuestionWorth");
                         awardPoints(teamAnswering,-points);
                         awaitingAnswer = !awaitingAnswer;
+                        lastQuestionCorrect = false;
                         showingAnswer = false;
                         timerStarted = false;
                     }
