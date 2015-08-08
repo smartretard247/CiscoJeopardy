@@ -1,36 +1,74 @@
 @Routing Dynamically@
-<a and b>
-<a and d>
-<c and d>
-<b and d>
-<e>
+<
+a) The network address 192.168.1.0 is advertised to the neighbor routers.
+b) Routing updates are sent through all the interfaces belonging to 192.168.1.0.>
+<
+a) The router has determined the costs associated with its active links.
+d) The router has established its adjacencies.>
+<
+c) a change in the topology
+d) the initial startup of the routing protocol process>
+<
+b) update and maintain routing tables
+d) network discovery>
+<
+e) allows a router to receive routing updates on an interface but not send updates via that interface>
 @Single-Area OSPF@
-<a>
-<b and d>
-<d>
-<b>
-<b>
+<
+a) show ip protocols>
+<
+b) to uniquely identify the router within the OSPF domain
+d) to facilitate router participation in the election of the designated router>
+<
+d) show ipv6 route ospf>
+<
+b) 0.0.0.31>
+<
+b) link-state database>
 @Access Control Lists@
-<c>
-<c>
-<c>
-<c and e>
-<b>
+<
+c) Inbound ACLs are processed before the packets are routed while outbound ACLs are processed after the routing is completed.>
+<
+c) R1(config-line)# access-class 1 in>
+<
+c) 8>
+<
+c) ACLs provide a basic level of security for network access.
+e) ACLs can control which areas a host can access on a network.>
+<
+b) They filter traffic based on source IP addresses only.>
 @DHCP@
-<b>
-<c>
-<a>
-<d>
-<d>
+<
+b) the link-local address of the router interface that is attached to the network>
+<
+c) ICMPv6>
+<
+a) to notify other DHCP servers on the subnet that the IP address was leased>
+<
+d) dynamic allocation>
+<
+d) broadcast DHCPREQUEST>
 @Network Address Translation for IPv4@
-<a>
-<a and d>
-<a>
-<c>
-<c>
+<
+a) a NAT pool named corp that defines the starting and ending public IP addresses>
+<
+a) Define a pool of global addresses to be used for overload translation.
+d) Identify the inside interface.>
+<
+a) PAT>
+<
+c) inside global addresses>
+<
+c) router>
 @Random@
-<c and e>
-<a>
-<d>
-<a>
-<c>
+<
+c) contain an exit interface
+e) contain a next-hop IP address>
+<
+a) Issue the command ip helper-address 10.10.200.10 on the router interface that is the 10.10.100.0/24 gateway.>
+<
+d) an implicit permit of neighbor discovery packets>
+<
+a) The port becomes inactive.>
+<
+c) the router-id command>

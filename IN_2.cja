@@ -1,36 +1,82 @@
 @Transport Layer@
-<d and e>
-<c>
-<a and e>
-<d>
-<b>
+<
+d) sequence number
+e) acknowledgment number>
+<
+c) the next byte that the destination expects to receive>
+<
+a) ACK
+e) SYN>
+<
+d) destination port number>
+<
+b) the combination of a source IP address and port number or a destination IP address and port number>
 @IP Addressing@
-<b, c, and e>
-<c and d>
-<d>
-<c>
-<a>
+<
+b) a global routing prefix that is used to identify the network portion of the address
+c) a subnet ID that is used to identify networks inside of the local enterprise site
+e) an interface ID that is used to identify the local host on the network>
+<
+c) the average time it takes a packet to reach the destination and for the response to return to the source
+d) whether or not the destination device is reachable through the network>
+<
+d) when the value in the TTL field reaches zero>
+<
+c) directed broadcast>
+<
+a) 32>
 @Subnetting for IP Networks@
-<c>
-<b>
-<b>
-<a and e>
-<b and d>
+<
+c) /25>
+<
+b) three>
+<
+b) 30>
+<
+a) It eliminates most address configuration errors.
+e) It reduces the burden on network support staff.>
+<
+b) /64
+d) /68>
 @Application Layer@
-<b, d, and e>
-<b and d>
-<d, e, and f>
-<d>
-<b, d, and e>
+<
+b) The destination IP address is 255.255.255.255.
+d) The message comes from a client seeking an IP address.
+e) All hosts receive the message, but only a DHCP server replies.>
+<
+b) SMTP tries to send the messages at a later time.
+d) SMTP periodically checks the queue for messages and attempts to send them again.>
+<
+d) FTP
+e) POP3
+f) DHCP>
+<
+d) HTTP>
+<
+b) session layer
+d) application layer
+e) presentation layer>
 @It's a Network@
-<c and d>
-<d>
-<c>
-<b>
-<d>
+<
+c) With SSID broadcast disabled, an attacker must know the SSID to connect.
+d) Using the default IP address on an access point makes hacking easier.>
+<
+d) WPA>
+<
+c) copy startup-config tftp>
+<
+b) allows internal IP addresses to be concealed from external users>
+<
+d) redundancy>
 @Random@
-<b and c>
-<d>
-<d>
-<b>
-<c>
+<
+b) IOS image file
+c) startup configuration>
+<
+d) when downloading large numbers of files from the same server>
+<
+d) containment, inoculation, quarantine, and treatment>
+<
+b) all IPv6 enabled nodes on the local link>
+<
+c) predictable static IP addresses for easier identification>

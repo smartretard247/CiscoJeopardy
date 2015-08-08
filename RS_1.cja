@@ -1,36 +1,78 @@
 @Intro to Switched Networks@
-<a>
-<c>
-<b and d>
-<b and e>
-<c>
+<
+a) source MAC address and incoming port number>
+<
+c) has a lower latency appropriate for high-performance computing applications>
+<
+b) increased scalability
+d) need for fewer power outlets>
+<
+b) to enhance user bandwidth
+e) to isolate traffic between segments>
+<
+c) provides access to the user>
 @Basic Switching Concepts@
-<b and d>
-<d>
-<a>
-<c>
-<a>
+<
+b) Dynamically learned secure MAC addresses are lost when the switch reboots.
+d) Dynamically learned addresses are added to CAM until the maximum number is reached.>
+<
+d) Issue the shutdown and then no shutdown interface commands.>
+<
+a) CDP>
+<
+c) DHCP starvation>
+<
+a) VLAN 1>
 @VLANs@
-<b>
-<c>
-<b>
-<a and c>
-<c and d>
+<
+b) switchport nonegotiate>
+<
+c) It allows only VLAN 30 on Fa0/5.>
+<
+b) show interfaces Fa0/1 switchport>
+<
+a) between two switches that utilize multiple VLANs
+c) between a switch and a server that has an 802.1Q NIC>
+<
+c) VLANs logically group hosts, regardless of physical location.
+d) Devices in one VLAN do not hear the broadcasts from devices in another VLAN.>
 @Routing Concepts@
-<a and d>
-<d>
-<a>
-<a>
-<a and c>
+<
+a) Admin distance refers to the trustworthiness of a particular route.
+d) Routes with the smallest metric to a destination indicate the best path.>
+<
+d) to provide a route to forward packets for which there is no route in the routing table>
+<
+a) Router(config)# router ?>
+<
+a) It is automatically updated and maintained by routing protocols.>
+<
+a) It connects multiple IP networks.
+c) It determines the best path to send packets.>
 @Inter-VLAN Routing@
-<a and e>
-<b>
-<a>
-<a>
-<a>
+<
+a) Router# show ip route
+e) Switch# show interfaces trunk>
+<
+b) to create a routed port for a single network>
+<
+a) The Layer 3 switch must have IP routing enabled.>
+<
+a) A router with at least two LAN interfaces should be used.>
+<
+a) router on a stick>
 @Static Routing@
-<b, d, and e>
-<a>
-<b and e>
-<b>
-<a and d>
+<
+b) ping
+d) show ip route
+e) show ip interface brief>
+<
+a) to be used as a backup route>
+<
+b) The number of bits used to identify the hosts is fixed by the class of the network.
+e) All subnets in a network are the same size.>
+<
+b) default route>
+<
+a) Static routing is more secure because it does not advertise over the network.
+d) Static routing uses fewer router resources than dynamic routing.>

@@ -192,5 +192,5 @@ d) The port creates the VLAN again. >
 
 a) the IP address of the highest configured loopback interface on the router
 b) the IP address of the highest active interface on the router
-c) the router-id rid command
+c) the router-id command
 d) the IP address of the highest active OSPF-enabled interface>
