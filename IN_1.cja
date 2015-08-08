@@ -1,36 +1,78 @@
 @Exploring the Network@
-<c and e>
-<d and e>
-<a>
-<b and c>
-<b, c, and e>
+<
+c) the distance the selected medium can successfully carry a signal
+e) the environment where the selected medium is to be installed>
+<
+d) They direct data along alternate pathways when there is a link failure.
+e) They filter the flow of data, based on security settings.>
+<
+a) If all circuits are busy, a new call cannot be placed.>
+<
+b) cellular
+c) satellite>
+<
+b) antivirus software
+c) antispyware software
+e) a firewall>
 @Configuring a Network Operating System@
-<b and d>
-<c>
-<a and e>
-<b>
-<d>
+<
+b) displaying a list of all available commands within the current mode
+d) determining which option, keyword, or argument is available for the entered command>
+<
+c) All passwords in the configuration are not shown in clear text when viewing the configuration.>
+<
+a) Flash provides nonvolatile storage.
+e) The contents of flash may be overwritten.>
+<
+b) Use the console port to locally access the switch from a serial or USB interface of the PC.>
+<
+d) user EXEC mode>
 @Network Protocols and Communication@
-<d>
-<b>
-<c>
-<b>
-<b>
+<
+d) destination MAC address>
+<
+b) logical address>
+<
+c) protocol data unit>
+<
+b) 802.11>
+<
+b) multicast>
 @Network Access@
-<b, c, and d>
-<a>
-<c>
-<b>
-<d>
+<
+b) security
+c) interference
+d) coverage area>
+<
+a) The transmitting node inserts start and stop bits into the frame.>
+<
+c) data link>
+<
+b) by increasing and varying the number of twists in each wire pair>
+<
+d) It is able to carry signals much farther than copper cabling.>
 @Ethernet@
-<b>
-<c and d>
-<b>
-<c>
-<c>
+<
+b) It will send an ARP request for the MAC address of the default gateway.>
+<
+c) A fixed configuration switch may be stackable.
+d) The number of ports on the switch cannot be increased.>
+<
+b) is used for timing synchronization>
+<
+c) It is a nondeterministic method.>
+<
+c) Collisions can decrease network performance.>
 @Network Layer@
-<b>
-<d>
-<c>
-<d>
-<c, e, and f>
+<
+b) the default gateway address>
+<
+d) It informs network devices to maintain the same path for real-time application packets.>
+<
+c) differentiated services>
+<
+d) A configured and activated router interface must be connected to another device in order to operate.>
+<
+c) line console 0
+e) login
+f) password cisco>
