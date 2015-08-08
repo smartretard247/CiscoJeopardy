@@ -40,9 +40,9 @@ public class Main extends SimpleApplication {
     private static final int TIME_LIMIT = 10;
     
     private int numQuestionsRemaining, numRound, timeRemaining;
-    private long startTime;
+    private long startTime, elapsedTimeNs;
     
-    private boolean soundEnabled = true, isRunning, awaitingAnswer, outOfTime, showingAnswer = false, gameOver, roundInitializing, canPause, isFullscreen;
+    private boolean soundEnabled = true, isRunning, awaitingAnswer, timerStarted = false, outOfTime, showingAnswer = false, gameOver, roundInitializing, canPause, isFullscreen;
     
     //filenames need '.\\' prefix for PC, none for MacOS
     private static String[] questionsFileName = new String[] { "IN_1.cjq", "IN_2.cjq", "RS_1.cjq", "RS_2.cjq" };
@@ -139,7 +139,7 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         if(isRunning) {
-            long elapsedTimeNs = System.nanoTime() - startTime;
+            elapsedTimeNs = System.nanoTime() - startTime;
             
             if(roundInitializing) {
                 if(elapsedTimeNs > 120000000) {
@@ -225,6 +225,8 @@ public class Main extends SimpleApplication {
         }
 
         public void onAction(String name, boolean isPressed, float tpf) {
+            
+            
             if (name.equals("Exit") && !isPressed) {
                 System.exit(0);
             }
@@ -257,7 +259,7 @@ public class Main extends SimpleApplication {
                 if(numRound < 2) { restartRound(3); } else { restartRound(1); }
             }
             if(isRunning && !awaitingAnswer && !roundInitializing) {
-                if (name.equals("Select") && !isPressed) {
+                if (name.equals("Select") && !isPressed && (elapsedTimeNs > 1000000000)) {
                     if(numQuestionsRemaining > 0) {
                         // 1. Reset results list.
                         CollisionResults results = new CollisionResults();
@@ -275,7 +277,7 @@ public class Main extends SimpleApplication {
                         for (int i = 0; i < results.size(); i++) {
                             boardCubePicked = results.getCollision(i).getGeometry();
                             hit = boardCubePicked.getName();
-
+                            
                             if(hit.equals("TheQuestion")) {
                                 if(soundEnabled) { audioGuess.playInstance(); } //play waiting sound once
                                 if(click2d.x < settings.getWidth()/2) {
@@ -283,9 +285,14 @@ public class Main extends SimpleApplication {
                                 } else {
                                     teamAnswering = 'B';//team A answering
                                 }
+
+                                timerStarted = true;
+
                                 awaitingAnswer = !awaitingAnswer; //pauses until question answered
                                 --numQuestionsRemaining; //keep track of how many questions left
                             } else {
+                                startTime = System.nanoTime();
+                                        
                                 question.setUserData("QuestionWorth", boardCubePicked.getUserData("Bet"));
                                 int index = boardCubePicked.getUserData("Index");
                                 questionText.setText(question.getQuestion(index));
@@ -344,6 +351,7 @@ public class Main extends SimpleApplication {
                         awardPoints(teamAnswering,points);
                         awaitingAnswer = !awaitingAnswer;
                         showingAnswer = false;
+                        timerStarted = false;
                     }
                     if (name.equals("WrongAnswer") && !isPressed) {
                         if(soundEnabled) { audioWrong.playInstance(); }
@@ -351,11 +359,15 @@ public class Main extends SimpleApplication {
                         awardPoints(teamAnswering,-points);
                         awaitingAnswer = !awaitingAnswer;
                         showingAnswer = false;
+                        timerStarted = false;
                     }
                 } else {
                     startTime = System.nanoTime(); //begin timer for answer
-                    timeRemaining = TIME_LIMIT;
-                    outOfTime = false;
+                    if(timerStarted) {
+                        timerStarted = false;
+                        timeRemaining = TIME_LIMIT;
+                        outOfTime = false;
+                    }
                 }
                 if (name.equals("ShowAnswer") && !isPressed) {
                     showingAnswer = true;
@@ -429,6 +441,7 @@ public class Main extends SimpleApplication {
         isRunning = true;
         awaitingAnswer = false;
         showingAnswer = false;
+        timerStarted = false;
         teamAnswering = 0;
         
         if(roundToStart == 0 || roundToStart == 2) {
