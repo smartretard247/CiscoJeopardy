@@ -37,7 +37,7 @@ public class Main extends SimpleApplication {
     private static final int NUM_COLUMNS = 6;
     private static final int NUM_ROWS = 5;
     
-    private static final int TIME_LIMIT = 10;
+    private static final int TIME_LIMIT = 5;
     
     private int numQuestionsRemaining, numRound, timeRemaining;
     private long startTime, elapsedTimeNs;
