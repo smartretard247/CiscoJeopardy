@@ -16,8 +16,8 @@ import java.util.logging.Logger;
  */
 public class Question extends Cube {
     
-    private static int numQuestions = 30;
-    private static int numCategories = 6;
+    protected static int numQuestions = 30;
+    protected static int numCategories = 6;
     
     protected String[] category;
     protected String[] theQuestions;
@@ -74,13 +74,13 @@ public class Question extends Cube {
         }
     }
     
-    private void resetAll() {
+    protected void resetAll() {
         resetQuestions();
         resetAnswers();
         resetCategories();
     }
     
-    private void resetCategories() {
+    protected void resetCategories() {
         for(int i = 0; i < numCategories; i++) {
             this.category[i] = "";
         }
@@ -146,7 +146,7 @@ public class Question extends Cube {
         return true;
     }
     
-    private void reorderArray(String[] source, String[] dest) {
+    protected void reorderArray(String[] source, String[] dest) {
         for(int j = 0; j < 5; j++) {
             for(int i = 0; i < 6; i++) {
                 dest[j*6+i] = source[i*5+j];

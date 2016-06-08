@@ -37,7 +37,7 @@ public class Main extends SimpleApplication {
     private static final int NUM_COLUMNS = 6;
     private static final int NUM_ROWS = 5;
     
-    private static final int TIME_LIMIT = 5;
+    private static final int TIME_LIMIT = 3;
     
     private int numQuestionsRemaining, numRound, timeRemaining;
     private long startTime, elapsedTimeNs;
@@ -45,8 +45,11 @@ public class Main extends SimpleApplication {
     private boolean soundEnabled = true, isRunning, awaitingAnswer, timerStarted = false, outOfTime, showingAnswer = false, gameOver, roundInitializing, canPause, isFullscreen;
     
     //filenames need '.\\' prefix for PC, none for MacOS
-    private static String[] questionsFileName = new String[] { "IN_1.cjq", "IN_2.cjq", "RS_1.cjq", "RS_2.cjq" };
-    private static String[] answersFileName = new String[] { "IN_1.cja", "IN_2.cja", "RS_1.cja", "RS_2.cja" };
+    //private static String[] questionsFileName = new String[] { "C1R1.cjq", "C1R2.cjq", "C2R1.cjq", "C2R2.cjq" };
+    //private static String[] answersFileName = new String[] { "C1R1.cja", "C1R2.cja", "C2R1.cja", "C2R2.cja" };
+    private static String[] questionsFileName = new String[] { "QA_Course1.xlsx", "QA_Course1.xlsx", "QA_Course2.xlsx", "QA_Course2.xlsx" };
+    private static String[] answersFileName = new String[] { "QA_Course1.xlsx", "QA_Course1.xlsx", "QA_Course2.xlsx", "QA_Course2.xlsx" };
+    
     private int[] orderToLoadQuestions = new int[] {
         5, 24, 10, 6, 15, 29, 1, 20, 9, 22, 14, 4, 19, 0, 28, 26, 11, 2, 3, 16, 7, 27, 12, 17, 21, 23, 8, 13, 18, 25 };
     private int[] teamScores = new int[2];
@@ -59,7 +62,7 @@ public class Main extends SimpleApplication {
     protected Cube main;
     protected Node boardCubeNode, tempCubeNode, categoryNode;
     protected Cube[][] boardCube = new Cube[NUM_ROWS][NUM_COLUMNS];
-    protected Question question = new Question("TheQuestion", new Vector3f(4, 3, 1), new Vector3f(8.0f, 6.0f, 7.2f));
+    protected QuestionXLS question = new QuestionXLS("TheQuestion", new Vector3f(4, 3, 1), new Vector3f(8.0f, 6.0f, 7.2f));
     private Geometry boardCubePicked, mark;
     protected BitmapText screenText, questionText, categoryText[] = new BitmapText[6], teamScoreText;
     protected BitmapFont questionFont, categoryFont;
@@ -72,7 +75,7 @@ public class Main extends SimpleApplication {
         AppSettings settings = new AppSettings(true);
         settings.put("Width", 1024);
         settings.put("Height", 768);
-        settings.put("Title", "Cisco Jeopardy!");
+        settings.put("Title", "Young's Schoolhouse Jeopardy!");
         settings.put("VSync", false);
         
         app.setSettings(settings);
@@ -238,7 +241,7 @@ public class Main extends SimpleApplication {
                 if (isRunning) {
                     removeQuestion("");
                 } else {
-                    questionText.setText("---Game Paused---\n\nALT - Show answer\nSPACE - Correct!\nBACKSPACE - Incorrect!\nU - Reverse last points awarded\n\nF5 - Toggle Class, IN or RS\nF9 - Restart\nF11 - Toggle Fullscreen\nM - Mute\nESC - Exit");
+                    questionText.setText("---Game Paused---\n\nALT - Show answer\nSPACE - Correct!\nBACKSPACE - Incorrect!\nU - Reverse last points awarded\n\nF5 - Toggle Course\nF9 - Restart\nF11 - Toggle Fullscreen\nM - Mute\nESC - Exit");
                     showQuestion("Created by SSG Jesse Young, inspired by class 209-15.");
                     canPause = true;
                 }
@@ -475,13 +478,13 @@ public class Main extends SimpleApplication {
         
         String roundStarted;
         if(numRound < 2) {
-            roundStarted = "Intro To Networks -- Round " + (numRound+1);
+            roundStarted = "Round " + (numRound+1);
         } else {
-            roundStarted = "Routing and Switching -- Round " + (numRound-1);
+            roundStarted = "Round " + (numRound-1);
         }
         removeQuestion(roundStarted);
         
-        initQuestions(questionsFileName[roundToStart], answersFileName[roundToStart]);
+        initQuestions(questionsFileName[roundToStart], answersFileName[roundToStart], roundToStart%2);
         setCategoryText();
         
         if(roundToStart == 1 || roundToStart == 3) { initRound(true); } else { initRound(false); }
@@ -566,9 +569,9 @@ public class Main extends SimpleApplication {
         mark.setMaterial(mark_mat);
   }
     
-    protected void initQuestions(String questionsFileName, String answersFileName) { //initQuestions("IN_Jeopardy_Questions.txt");
-        question.loadQA(questionsFileName, 'Q'); //load questions
-        question.loadQA(answersFileName, 'A'); //load anwers
+    protected void initQuestions(String questionsFileName, String answersFileName, int round) { //initQuestions("IN_Jeopardy_Questions.txt");
+        question.loadQA(questionsFileName, 'Q', round); //load questions
+        question.loadQA(answersFileName, 'A', round); //load anwers
         question.getGeometry().setLocalTranslation(new Vector3f(8.0f, 16.0f, 7.2f));
         boardCubeNode.attachChild(createCube(question, "QuestionBack.png"));
     }
