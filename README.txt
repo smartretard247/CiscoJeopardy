@@ -1,8 +1,13 @@
-----Cisco Jeopardy, created by SSG Jesse Young----
+----Young's Schoolhouse Jeopardy, created and developed by SSG Jesse Young----
+
+Setup:
+
+Before you begin, open the QA_Course1.xlsx file and write in all your questions in the sheet labelled "Questions".  Then put the corresponding answers in the sheet labelled "Answers".  Optionally, you may do the same to the QA_Course2.xlsx file to support switching between two courses. Enjoy!
+
 
 How to play:
 
-1. Press the F5 key to toggle between Intro to Networks and Routing and Switching.  The current mode will be displayed at the bottom of the screen.
+1. Press the F5 key to toggle between Course 1 and Course 2.  The current mode will be displayed at the bottom of the screen.
 
 2. Player clicks a dollar amount under topic to bring up question.
 
@@ -15,7 +20,7 @@ At the end of round 1, click anywhere to begin Double Jeopardy round.  At the en
 Keys:
 
 P: Pause game and bring up menu
-F5: Toggle between classes (IN or RS)
+F5: Toggle between classes (Course 1 or 2)
 F9: Restart game
 F11: Toggle fullscreen/windowed mode
 M: Mute/Unmute

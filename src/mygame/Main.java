@@ -478,9 +478,9 @@ public class Main extends SimpleApplication {
         
         String roundStarted;
         if(numRound < 2) {
-            roundStarted = "Round " + (numRound+1);
+            roundStarted = "Course 1 -- Round " + (numRound+1);
         } else {
-            roundStarted = "Round " + (numRound-1);
+            roundStarted = "Course 2 -- Round " + (numRound-1);
         }
         removeQuestion(roundStarted);
         
